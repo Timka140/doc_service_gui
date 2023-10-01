@@ -1,18 +1,19 @@
+<script setup>
+// import {wsStore} from "@/stores/ws"
+import LeftMenu from '@/components/LeftMenu.vue';
+
+
+</script>
+
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="d-flex bd-highlight" style="height: 100vh;">
+    <div class="bd-highlight">
+      <LeftMenu />
+    </div>
+    <div class="flex-fill bd-highlight b-site">
+      <main>
+        <h1>Главная страница</h1>
+      </main>
+    </div>
   </div>
 </template>
-
-<script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
-export default {
-  name: 'HomeView',
-  components: {
-    HelloWorld
-  }
-}
-</script>
