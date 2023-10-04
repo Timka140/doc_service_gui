@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from "@/views/LoginView.vue"
+import DocxServicesView from "@/views/DocxServicesView.vue"
 // import AboutView from "@/views/AboutView.vue"
 
 import { authStore } from '../stores/auth'
@@ -29,7 +30,7 @@ const router = createRouter({
     {
       path: '/gui/services/docx',
       name: 'Микросервисы docx',
-      component: LoginView,
+      component: DocxServicesView,
       meta: { 
         requiresAuth: true,
         pageName: "Микросервисы docx",
@@ -44,7 +45,7 @@ router.beforeEach((to/*, from*/) => {
   const auth = authStore();
   //Проверяем подлинность сессии
   if (auth.IsLoggedIn) {
-    auth.IsLogin()
+    auth.IsLogin(to.path)
   }
   if (to.meta.pageName) { //Задаю название страницы
     document.title = to.meta.pageName;

@@ -39,8 +39,12 @@
         <div class="row d-flex justify-content-center">
           <div class="col-lg-6 mb-5 mb-lg-0 mt-5">
             <div class="card cascading-right">
-              <div class="card-body p-5 shadow-5 text-center">
-                <h2 class="fw-bold mb-5">Авторизация</h2>
+              <form @submit.prevent>
+                <div class="card-body p-5 shadow-5 text-center">
+                  <div v-if="auth.message != ''" class="alert alert-danger" role="alert">
+                    {{ auth.message }}
+                  </div>
+                  <h2 class="fw-bold mb-5">Авторизация</h2>
                   <!-- Email input -->
                   <div class="form-outline mb-4">
                     <input type="text" class="form-control" placeholder="Логин" :value="auth.login"
@@ -62,10 +66,11 @@
                   </div>
 
                   <!-- Submit button -->
-                  <button type="submit" class="btn btn-primary btn-block mb-4" @click="auth.Login()">
+                  <button class="btn btn-primary btn-block mb-4" type="submit" @click="auth.Login()">
                     Войти
                   </button>
-              </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>

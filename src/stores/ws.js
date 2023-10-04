@@ -1,63 +1,106 @@
-import { defineStore } from 'pinia'
-import wsRouter from './ws_router'
+import { defineStore } from "pinia";
+import wsRouter from "./ws_router";
+import { authStore } from "@/stores/auth"
+import router from "@/router";
 
-const constructors = wsRouter()
-
-export const wsStore = defineStore('ws', {
+export const wsStore = defineStore("ws", {
   state: () => ({
-    socket: new WebSocket('ws://' + document.location.host + '/api/ws')
+    socket: undefined,
+    open: false,
+    constructors: wsRouter(),
+    auth: authStore(),
     // socket: new WebSocket('ws://localhost:8071/ws')
   }),
-  getters: {},
-  actions: {
-    Connect() {
-      this.socket = new WebSocket('ws://' + document.location.host + '/api/ws')
+  getters: {
+    StateOpen: (state) => {
+      return state.open;
     },
-    Init() {
-        let th = this;
+  },
+  actions: {
+    async Connect() {
+      let th = this;
+      return new Promise((resolve) => {
+        th.socket = new WebSocket("ws://" + document.location.host + "/api/ws");
+        th.socket.addEventListener("open", (event) => {
+          console.log("WebSocket open:", event);
+          resolve(true);
+        });
+      });
+    },
+    async Init(callback) {
+      let th = this;
       if (th.socket == undefined || th.socket == null) {
-        th.Connect()
+        th.open = await this.Connect();
+
+        if (!th.open) {
+          console.log("Не удалось открыть соединение");
+          return;
+        }
       }
 
-      th.socket.addEventListener('message', (event) => {
+      th.socket.addEventListener("message", (event) => {
         if (!event.data) {
-          return
+          return;
         }
-        let data = JSON.parse(event.data)
+        let data = JSON.parse(event.data);
 
-        let constructor = constructors[data.tp]
+        let constructor = this.constructors[data.tp];
         if (constructor !== undefined) {
-          constructor(data)
+          constructor(data);
         } else {
-          console.log('[WARNING] Обработчик не найден:', data)
+          console.log("[WARNING] Обработчик не найден:", data);
         }
-      })
+      });
 
       th.socket.addEventListener("close", (event) => {
         console.log("[WARNING] WebSocket close:", event);
-        th.Connect();
+        switch (event.code) {
+          case 1000:
+            break;
+
+          case 1006:
+            // th.auth.IsLogin();
+            router.push('/gui/login');
+            break;
+
+          case 4000:
+            setTimeout(() => {
+              th.Connect();
+            }, 3000);
+            break;
+
+          default:
+            setTimeout(() => {
+              th.Connect();
+            }, 3000);
+        }
       });
 
       th.socket.addEventListener("error", (event) => {
         console.log("[WARNING] WebSocket error:", event);
         th.Connect();
       });
+
+      if (callback != undefined) {
+        callback();
+      }
     },
 
-    Send(data) {
+    async Send(data) {
       if (data == undefined) {
-        return
+        return;
       }
       if (this.socket == undefined || this.socket == null) {
-        return
+        await this.Init();
+        // return
       }
-      this.socket.send(JSON.stringify(data))
+      this.socket.send(JSON.stringify(data));
     },
     Close() {
-      this.socket.close(1000, 'работа закончена')
+      this.socket.close(1000, "работа закончена");
     },
     Socket() {
-        return this.socket;
-    }
-  }
-})
+      return this.socket;
+    },
+  },
+});

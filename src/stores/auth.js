@@ -2,14 +2,25 @@ import { defineStore } from "pinia";
 import {wsStore} from "@/stores/ws"
 
 import router from "@/router";
+import axios from "axios";
 
 export const authStore = defineStore("auth", {
   state: () => ({
+    ws: wsStore(),
     token: localStorage.getItem("token"),
     login: "",
     password: "",
+
+    message: "",
   }),
   getters: {
+    Token: (state) => {
+      if (state.token == undefined) {
+        return ""
+      }
+      return state.token;
+    },
+
     IsLoggedIn: (state) => {
       let ses = false;
       if (state.token != "") ses = true;
@@ -18,10 +29,13 @@ export const authStore = defineStore("auth", {
     },
   },
   actions: {
+    PreventDefault(event) {
+      event.preventDefault();
+    }, 
     Login() {
       this.login = this.login.trim();
 
-      fetch("/api/v1/login", {
+       fetch("/api/v1/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -33,9 +47,15 @@ export const authStore = defineStore("auth", {
         }),
       })
         .then((response) => {
+          if (response.status != 200) {
+            return
+          }
           return response.json();
         })
         .then((data) => {
+          if (data == undefined) {
+            return
+          } 
           this.message = data.message;
           this.password = "";
 
@@ -47,7 +67,6 @@ export const authStore = defineStore("auth", {
 
             //Сохраняю данные
             localStorage.setItem("token", data.token);
-            localStorage.setItem("email", data.email);
             localStorage.setItem("name", data.name);
             localStorage.setItem("lastName", data.lastName);
             localStorage.setItem("saveSessions", this.GetSaveSessions);
@@ -60,17 +79,45 @@ export const authStore = defineStore("auth", {
             this.name = data.name;
             this.lastName = data.lastName;
 
-            //Подключаю сокет
-            // this.ws.InitSocket();
-            // this.ws.Init(data.socketAdr);
-
-            const ws = wsStore();
-            ws.Init();
-
+           this.ws.Init(()=>{
             router.push("/gui/");
+           });
           }
         });
     },
-    IsLogin() {},
+    async IsLogin(to_path) { //Проверяю авторизован ли пользователь
+      let th = this;
+      if (to_path == undefined) {
+        to_path = ""
+      }
+      if (th.ws.StateOpen) {
+        th.ws.Send({tp: "CheckSession", cmd: "Start", path: to_path,})
+      } else {
+        axios.post('/api/v1/isLogin', {
+          path: to_path,
+        })
+        .then(function (response) {
+          th.CheckSession(response.data)
+        })
+        .catch(function () {
+          th.CheckSession({login: false})
+        });
+      }
+    },
+    CheckSession(data) { //Закрываю сессию если она не ликвидна
+      if (!data.login) {
+        this.CloseSession()
+        return
+      }
+    },
+    CloseSession() {
+      console.log("Сессия закрыта сервером!")
+      localStorage.setItem("token", "")
+      if (this.ws.StateOpen) {
+        this.ws.Close();
+      }
+      this.token = "";
+      router.push('/gui/login');
+    },
   },
 });
