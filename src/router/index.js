@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from "@/views/LoginView.vue"
 import DocxServicesView from "@/views/DocxServicesView.vue"
+import ProcessesView from "@/views/ProcessesView.vue"
 // import AboutView from "@/views/AboutView.vue"
 
 import { authStore } from '../stores/auth'
@@ -25,6 +26,15 @@ const router = createRouter({
       meta: { 
         requiresAuth: false,
         pageName: "Авторизация",
+      }
+    },
+    {
+      path: '/gui/processes',
+      name: 'Процессы',
+      component: ProcessesView,
+      meta: { 
+        requiresAuth: true,
+        pageName: "Процессы",
       }
     },
     {

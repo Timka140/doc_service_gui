@@ -6,7 +6,7 @@
         <div class="flex-fill bd-highlight b-site">
             <main class="container-fluid mt-2">
 
-                <h1 class="mb-4">DocxServices</h1>
+                <h1 class="mb-4">Микросервисы DocxTemplate</h1>
 
                 <div class="card mb-4">
                     <div class="card-body">

@@ -16,6 +16,11 @@ import { RouterLink } from 'vue-router'
                         Главная
                     </RouterLink>
                 </li>
+                <li class="nav-item">
+                    <RouterLink to="/gui/processes" class="nav-link text-white" aria-current="page">
+                        Процессы
+                    </RouterLink>
+                </li>
                 <li class="mb-1">
                     <button class="btn btn-toggle align-items-center rounded collapsed text-white" data-bs-toggle="collapse"
                         data-bs-target="#dashboard-collapse" aria-expanded="false">
