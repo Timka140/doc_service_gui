@@ -10,36 +10,29 @@ import { RouterLink } from 'vue-router'
                 <span class="fs-4">DocService</span>
             </a>
             <hr>
-            <ul class="nav nav-pills flex-column mb-auto">
-                <li class="nav-item">
-                    <RouterLink to="/gui/" class="nav-link active" aria-current="page">
-                        Главная
+            <ul v-for="(item, index) in links" :key="index" class="nav nav-pills flex-column mb-auto">
+                <li v-if="item.tp == 'item'" class="nav-item">
+                    <RouterLink :to="item.to" class="nav-link"
+                        :class="{ 'active': item.selected, 'text-white': !item.selected }" aria-current="page">
+                        {{ item.name }}
                     </RouterLink>
                 </li>
-                <li class="nav-item">
-                    <RouterLink to="/gui/processes" class="nav-link text-white" aria-current="page">
-                        Процессы
-                    </RouterLink>
-                </li>
-                <li class="mb-1">
+                <li v-if="item.tp == 'items'" class="mb-1">
                     <button class="btn btn-toggle align-items-center rounded collapsed text-white" data-bs-toggle="collapse"
                         data-bs-target="#dashboard-collapse" aria-expanded="false">
-                        <font-awesome-icon icon="fa-solid fa-caret-down" /> Микросервисы
+                        <font-awesome-icon icon="fa-solid fa-caret-down" /> {{ item.name }}
                     </button>
                     <div class="collapse show" id="dashboard-collapse">
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small ps-4">
+                        <ul v-for="(child_item, child_index) in item.links" :key="child_index"
+                            class="btn-toggle-nav list-unstyled fw-normal pb-1 small ps-4">
                             <li>
-                                <RouterLink to="/gui/services/docx" class="nav-link text-white">
-                                    Docx
+                                <RouterLink :to="child_item.to" class="nav-link"
+                                    :class="{ 'active': child_item.selected, 'text-white': !child_item.selected }">
+                                    {{ child_item.name }}
                                 </RouterLink>
                             </li>
                         </ul>
                     </div>
-                </li>
-                <li>
-                    <a href="#" class="nav-link text-white">
-                        Orders
-                    </a>
                 </li>
             </ul>
             <hr>
@@ -51,8 +44,89 @@ import { RouterLink } from 'vue-router'
 </template>
 
 <script>
-export default {
+import { wsStore } from "@/stores/ws";
+import { useRoute } from 'vue-router';
 
+
+export default {
+    name: "LeftMenu",
+    setup() {
+        // const route = useRoute();
+        let ws = wsStore();
+        return {
+            ws,
+        }
+    },
+    data() {
+        return {
+            route: useRoute(),
+            links: [
+                {
+                    tp: "item",
+                    to: "/gui/",
+                    name: "Главная",
+                    selected: false,
+                },
+                {
+                    tp: "item",
+                    to: "/gui/processes",
+                    name: "Процессы",
+                    selected: false,
+                },
+                {
+                    tp: "items",
+                    name: "Микросервисы",
+                    links: [
+                        {
+                            to: "/gui/services/docx",
+                            name: "Docx",
+                            selected: false,
+                        }
+                    ]
+                },
+            ],
+        }
+    },
+
+    close() {
+
+    },
+    unmounted() {
+
+    },
+    created() {
+        // this.docx.Init();
+        this.SetActive();
+    },
+
+    methods: {
+        SetActive() {
+            let path = this.route.path;
+            for (let item of this.links) {
+                if (item.to == path) {
+                    item.selected = true;
+                }
+                if (item.tp == "items") {
+                    for (let child_item of item.links) {
+                        if (child_item.to == path) {
+                            child_item.selected = true;
+                        }
+                    }
+
+                }
+            }
+        },
+        Send() {
+            // this.ws.Send({
+            //     tp: "test",
+            //     data: "data",
+            // })
+            console.log("Проверка")
+        },
+    },
+    components: {
+
+    },
 }
 </script>
 

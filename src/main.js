@@ -9,9 +9,9 @@ import { createPinia } from 'pinia'
 //Icons
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faUserSecret, faRotate, faServer, faPlay, faStop, faCaretDown} from '@fortawesome/free-solid-svg-icons'
+import { faUserSecret, faRotate, faServer, faPlay, faStop, faCaretDown, faMagnifyingGlass, faTrash, faFolderPlus, faFileCirclePlus, faDatabase, faXmark, faCheck, faFileImport} from '@fortawesome/free-solid-svg-icons'
 
-library.add(faUserSecret, faRotate, faServer, faPlay, faStop, faCaretDown)
+library.add(faUserSecret, faRotate, faServer, faPlay, faStop, faCaretDown, faMagnifyingGlass, faTrash, faFolderPlus, faFileCirclePlus, faDatabase, faXmark, faCheck, faFileImport)
 
 import App from './App.vue'
 import router from './router'

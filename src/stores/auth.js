@@ -48,6 +48,7 @@ export const authStore = defineStore("auth", {
       })
         .then((response) => {
           if (response.status != 200) {
+            this.message = "Сервере временно не доступен"
             return
           }
           return response.json();

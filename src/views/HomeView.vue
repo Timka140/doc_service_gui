@@ -1,6 +1,6 @@
 <script>
 import LeftMenu from '@/components/LeftMenu.vue';
-import {wsStore} from "@/stores/ws"
+import { wsStore } from "@/stores/ws"
 
 export default {
   name: "DocxServicesView",
@@ -39,8 +39,13 @@ export default {
     </div>
     <div class="flex-fill bd-highlight b-site">
       <main class="container-fluid mt-2">
-        <h1>Главная страница</h1>
-        <button @click="this.Send">Проверка сокета</button>
+        <h1 class="mb-4">Главная</h1>
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="row">
+            </div>
+          </div>
+        </div>
       </main>
     </div>
   </div>

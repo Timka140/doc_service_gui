@@ -51,7 +51,7 @@ export const docxServicesStore = defineStore("docx_services", {
         tp: "RunDocxServices",
         cmd: "Start",
         execution: "start",
-        quantity: val,
+        quantity: val+"",
       });
     },
     SelectRow(event, pid) {
