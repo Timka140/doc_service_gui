@@ -28,7 +28,8 @@
                                                         icon="fa-solid fa-folder-plus" /></button>
                                             </div>
                                             <div class="input-group me-2">
-                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                <button type="button" class="btn btn-primary"
+                                                    data-bs-toggle="modal"
                                                     data-bs-target="#modalTemplateCreate"><font-awesome-icon
                                                         icon="fa-solid fa-file-import" /></button>
                                             </div>
@@ -38,8 +39,7 @@
                                     <div class="p-2 flex-grow-1 bd-highlight"></div>
                                     <div class="p-2 bd-highlight">
                                         <div class="input-group">
-                                            <button type="button" class="btn btn-primary"
-                                                title="Запускает указанное число микро сервисов"><font-awesome-icon
+                                            <button type="button" class="btn btn-primary" title="Поиск"><font-awesome-icon
                                                     icon="fa-solid fa-magnifying-glass" /></button>
                                             <input type="text" class="form-control" placeholder="Введите название"
                                                 aria-label="Input group example">
@@ -47,6 +47,9 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
+                            <BreadcrumbMenu :items="tasks.Path" :open="tasks.OpenToPath"/>
                         </div>
                         <div class="row">
                             <table class="table">
@@ -60,22 +63,28 @@
                                         <th scope="col" style="width: 50px;">
                                             <span>№</span>
                                         </th>
-                                        <th scope="col" style="width: 300px;">Статус</th>
-                                        <th scope="col">Pid</th>
+                                        <th scope="col" style="width: 50px;"></th>
+                                        <th scope="col">Статус</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="(item) in tasks.Data" :key="item.Pid">
                                         <th>
                                             <div class="form-check">
-                                                <input class="form-check-input" @change="tasks.SelectRow($event, item.Pid)"
+                                                <input class="form-check-input"
                                                     :checked="item.select" type="checkbox" value="" id="flexCheckDefault">
                                             </div>
                                         </th>
                                         <td>{{ item.index }}</td>
-                                        <td><strong v-if="item.Online">Работает</strong><strong v-else>Остановлен</strong>
+                                        <td>
+                                            <font-awesome-icon v-if="item.Tp == 1" icon="fa-solid fa-database" />
+                                            <font-awesome-icon v-if="item.Tp == 2" icon="fa-solid fa-folder" />
+                                            <font-awesome-icon v-if="item.Tp == 3" icon="fa-solid fa-file" />
                                         </td>
-                                        <td scope="row">{{ item.Pid }}</td>
+                                        <td class="catalog-hover" @dblclick="tasks.Open(item)">{{ item.Name }}</td>
+                                    </tr>
+                                    <tr v-if="tasks.Data.length == 0">
+                                        <td colspan="4">Пусто</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -85,7 +94,7 @@
             </main>
             <ModalBaseCreate :idModal="'modalBaseCreate'" />
             <ModalCatalogCreate :idModal="'modalCatalogCreate'" />
-            <ModalFileCreate :idModal="'modalTemplateCreate'" />
+            <ModalTaskCreate :idModal="'modalTemplateCreate'" />
         </div>
     </div>
 </template>
@@ -94,11 +103,12 @@
 import LeftMenu from '@/components/LeftMenu.vue';
 import { wsStore } from "@/stores/ws";
 import { useRoute } from 'vue-router';
-import {taskListStore} from '@/stores/tasks/task_list'
+import { taskListStore } from '@/stores/tasks/task_list'
 
 import ModalBaseCreate from '@/components/ModalBaseCreate.vue';
 import ModalCatalogCreate from '@/components/ModalCatalogCreate.vue';
-import ModalFileCreate from '@/components/ModalFileCreate.vue';
+import ModalTaskCreate from '@/components/ModalTaskCreate.vue';
+import BreadcrumbMenu from '@/components/BreadcrumbMenu.vue';
 
 export default {
     name: "TaskListView",
@@ -125,7 +135,7 @@ export default {
 
     },
     created() {
-        // this.tasks.Init();
+        this.tasks.Init();
         // console.log(this.route.path)
     },
 
@@ -138,9 +148,28 @@ export default {
         LeftMenu,
         ModalBaseCreate,
         ModalCatalogCreate,
-        ModalFileCreate,
+        ModalTaskCreate,
+        BreadcrumbMenu,
     },
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+table {
+    -youbkit-touch-callout: none;
+    /* Сафари для iOS */
+    -youbkit-user-select: none;
+    /* Chrome 6.0+, Safari 3.1+, Edge и Opera 15+ */
+    -moz-user-select: none;
+    /* Fire Fox */
+    -ms-user-select: none;
+    /* IE 10+ и Edge */
+    user-select: none;
+    /* Версия без префикса, в настоящее время поддерживается Chrome и Opera */
+}
+
+.catalog-hover:hover {
+    background: #eee;
+    cursor: pointer;
+}
+</style>

@@ -9,14 +9,14 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Название шаблона</label>
-                        <input type="text" class="form-control"
+                        <input type="text" @change="this.task_info.name = $event.target.value" class="form-control"
                             placeholder="Введите название шаблона">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><font-awesome-icon
                             icon="fa-solid fa-xmark" /></button>
-                    <button type="button" class="btn btn-success"><font-awesome-icon icon="fa-solid fa-check" /></button>
+                    <button type="button" data-bs-dismiss="modal" @click="tasks.CreateTask(this.task_info)" class="btn btn-success"><font-awesome-icon icon="fa-solid fa-check" /></button>
                 </div>
             </div>
         </div>
@@ -24,17 +24,26 @@
 </template>
 
 <script>
+import {taskListStore} from '@/stores/tasks/task_list'
+
 export default {
-    name: "ModalFileCreate",
+    
+    name: "ModalTaskCreate",
     props: {
         idModal: String,
     },
     setup() {
-
+        const tasks = taskListStore();
+        
+        return {
+            tasks,
+        }
     },
     data() {
         return {
-            
+            task_info: {
+                name: "",     
+            }
         }
     },
 }

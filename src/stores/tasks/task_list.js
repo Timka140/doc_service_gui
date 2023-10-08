@@ -4,45 +4,136 @@ import { wsStore } from "@/stores/ws";
 export const taskListStore = defineStore("task_list", {
   state: () => ({
     ws: wsStore(),
-    path: "/",
-    items: {},
+    path: "",
+    tasks: {},
   }),
   getters: {
     Data: (state) => {
-      let items = state.items;
-      if (items == undefined) {
-        items = {};
+      let tasks = state.tasks;
+      if (tasks == undefined || tasks == null) {
+        tasks = []
       }
-      return items;
+
+      return tasks;
+    },
+
+    Path: (state) => {
+      if (state.path == undefined) {
+        state.path = "";
+      }
+
+      let path = state.path.split("/");
+      
+      let p = "/";
+      let data = {};
+      let len = path.length;
+      for (let i in path) {
+        let val = path[i];
+        let disable = false;
+        if (len -1 == i) {
+          disable = true
+        }
+        if (p == "/") {
+          p = "/"+val; 
+        } else {
+          p += "/"+val; 
+        }
+
+        data[val] = {
+          name: val,
+          path: p,
+          index: crypto.randomUUID(),
+          disable: disable,
+        };
+      }
+      return data;
     },
   },
   actions: {
+    getPath() {
+      let ph = this.path;
+      if (ph == "" || ph == undefined || ph == null) {
+        ph = "/"
+      }
+
+      return  ph;
+    },
     Init() {
       this.ws.Send({
-        tp: "TaskListTable",
+        tp: "TaskList",
         cmd: "Start",
         execution: "list",
       });
     },
     Render(data) {
-      if (data.items == undefined) {
-        return;
+      if (data.tasks == undefined) {
+        data.tasks = [];
       }
 
       let ind = 1;
-      for (let pid in data.items) {
-        data.items[pid]["index"] = ind;
+      for (let pid in data.tasks) {
+        data.tasks[pid]["index"] = ind;
         ind++;
       }
 
-      this.items = data.items;
+      this.tasks = data.tasks;
+      this.path = data.path;
     },
     SelectRow(event, pid) {
       let checked = event.target.checked;
 
-      this.items[pid]["select"] = checked;
+      this.tasks[pid]["select"] = checked;
 
-      console.log(checked, pid, this.items);
+      console.log(checked, pid, this.tasks);
     },
+    CreateTask(data) {
+      this.ws.Send({
+        tp: "TaskCreate",
+        cmd: "Start",
+        path: this.getPath(),
+        execution: "tasks",
+        data: data,
+      });
+    },
+    CreateCatalog(data) {
+      this.ws.Send({
+        tp: "TaskCreate",
+        cmd: "Start",
+        path: this.getPath(),
+        execution: "catalog",
+        data: data,
+      });
+    },
+    CreateStore(data) {
+      this.ws.Send({
+        tp: "TaskCreate",
+        cmd: "Start",
+        path: this.getPath(),
+        execution: "store",
+        data: data,
+      });
+    },
+    Open(data) {
+      if (data.Tp == undefined) {
+        return
+      }
+
+      this.ws.Send({
+        tp: "TaskList",
+        cmd: "Start",
+        path: this.getPath(),
+        execution: "open",
+        tp_task: data.Tp,
+        name: data.Name,
+      });
+    },
+    OpenToPath(path) {
+      this.ws.Send({
+        tp: "TaskList",
+        cmd: "Start",
+        path: path,
+        execution: "list",
+      });
+    }
   },
 });

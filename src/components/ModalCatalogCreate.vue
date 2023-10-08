@@ -9,13 +9,13 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Название каталога</label>
-                        <input type="text" class="form-control" placeholder="Введите название каталога">
+                        <input type="text" @change="this.catalog_info.name = $event.target.value" class="form-control" placeholder="Введите название каталога">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><font-awesome-icon
                             icon="fa-solid fa-xmark" /></button>
-                    <button type="button" class="btn btn-success"><font-awesome-icon icon="fa-solid fa-check" /></button>
+                    <button type="button" data-bs-dismiss="modal" @click="tasks.CreateCatalog(this.catalog_info)" class="btn btn-success"><font-awesome-icon icon="fa-solid fa-check" /></button>
                 </div>
             </div>
         </div>
@@ -23,17 +23,22 @@
 </template>
 
 <script>
+import { taskListStore } from '@/stores/tasks/task_list';
 export default {
     name: "ModalCatalogCreate",
     props: {
         idModal: String,
     },
     setup() {
-
+        return {
+            tasks: taskListStore(),
+        }
     },
     data() {
         return {
-            
+            catalog_info: {
+                name: "",     
+            }
         }
     },
 }
