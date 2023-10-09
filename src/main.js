@@ -27,6 +27,7 @@ import {
   faFolder,
   faFile,
   faHouse,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -46,7 +47,8 @@ library.add(
   faFileImport,
   faFolder,
   faFile,
-  faHouse
+  faHouse,
+  faPlus
 );
 
 import App from "./App.vue";

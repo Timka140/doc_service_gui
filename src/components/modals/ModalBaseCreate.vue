@@ -27,7 +27,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><font-awesome-icon
                             icon="fa-solid fa-xmark" /></button>
-                    <button type="button" class="btn btn-success"><font-awesome-icon icon="fa-solid fa-check" /></button>
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal"><font-awesome-icon icon="fa-solid fa-check" /></button>
                 </div>
             </div>
         </div>

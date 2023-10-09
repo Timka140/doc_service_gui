@@ -1,9 +1,12 @@
 import { defineStore } from "pinia";
 import { wsStore } from "@/stores/ws";
+import { taskStore } from "@/stores/tasks/task";
+import router from "@/router";
 
 export const taskListStore = defineStore("task_list", {
   state: () => ({
     ws: wsStore(),
+    task: taskStore(),
     path: "",
     tasks: {},
   }),
@@ -55,9 +58,28 @@ export const taskListStore = defineStore("task_list", {
       if (ph == "" || ph == undefined || ph == null) {
         ph = "/"
       }
-
       return  ph;
     },
+    update() {
+      this.ws.Send({
+        tp: "TaskList",
+        cmd: "Start",
+        execution: "list",
+        path: this.path,
+      });
+    },
+
+    open(data) {
+      this.ws.Send({
+        tp: "TaskList",
+        cmd: "Start",
+        path: this.getPath(),
+        execution: "open",
+        tp_task: data.Tp,
+        name: data.Name,
+      });
+    },
+
     Init() {
       this.ws.Send({
         tp: "TaskList",
@@ -118,14 +140,16 @@ export const taskListStore = defineStore("task_list", {
         return
       }
 
-      this.ws.Send({
-        tp: "TaskList",
-        cmd: "Start",
-        path: this.getPath(),
-        execution: "open",
-        tp_task: data.Tp,
-        name: data.Name,
-      });
+      if (data.Tp == 1) { //Store
+        this.open(data)
+      }
+      if (data.Tp == 2) { //Catalog
+        this.open(data)
+      }
+      if (data.Tp == 3) {//Task
+        this.task.SetTask(data)
+        router.push('/gui/processes/task');
+      }
     },
     OpenToPath(path) {
       this.ws.Send({
@@ -134,6 +158,10 @@ export const taskListStore = defineStore("task_list", {
         path: path,
         execution: "list",
       });
-    }
+    },
+    StateCreate(data) {
+      this.update();
+      console.log(data)
+    },
   },
 });

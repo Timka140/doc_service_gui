@@ -9,7 +9,7 @@ export default function wsRouter(){
     return {
         ListDocxServices: docxService.Render,
         CheckSession: auth.CheckSession,
-        TaskCreate: tasks.Render,
+        TaskCreate: tasks.StateCreate,
         TaskList: tasks.Render,
         // StateProcess: StateProcess, // Проверка сессии 
         // Pid: Pid,

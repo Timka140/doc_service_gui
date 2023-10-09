@@ -105,9 +105,9 @@ import { wsStore } from "@/stores/ws";
 import { useRoute } from 'vue-router';
 import { taskListStore } from '@/stores/tasks/task_list'
 
-import ModalBaseCreate from '@/components/ModalBaseCreate.vue';
-import ModalCatalogCreate from '@/components/ModalCatalogCreate.vue';
-import ModalTaskCreate from '@/components/ModalTaskCreate.vue';
+import ModalBaseCreate from '@/components/modals/ModalBaseCreate.vue';
+import ModalCatalogCreate from '@/components/modals/ModalCatalogCreate.vue';
+import ModalTaskCreate from '@/components/modals/ModalTaskCreate.vue';
 import BreadcrumbMenu from '@/components/BreadcrumbMenu.vue';
 
 export default {
