@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { wsStore } from "@/stores/ws";
 
-export const taskStore = defineStore("task", {
+export const taskLocalStore = defineStore("task_local", {
   state: () => ({
     ws: wsStore(),
     task_id: localStorage.getItem("task_id"),
@@ -26,6 +26,15 @@ export const taskStore = defineStore("task", {
         }
         
         localStorage.setItem("task_id", data.Id);
+    },
+    AddTable() {
+      // this.ws.Send({
+      //   tp: "TaskCreate",
+      //   cmd: "Start",
+      //   path: this.getPath(),
+      //   execution: "store",
+      //   data: data,
+      // });
     }
   },
 });

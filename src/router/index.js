@@ -3,7 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from "@/views/LoginView.vue"
 import DocxServicesView from "@/views/DocxServicesView.vue"
 import TaskListView from "@/views/TaskListView.vue"
-import TaskView from "@/views/TaskView.vue"
+import TaskLocalView from "@/views/TaskLocalView.vue"
 // import AboutView from "@/views/AboutView.vue"
 
 import { authStore } from '../stores/auth'
@@ -39,9 +39,9 @@ const router = createRouter({
       }
     },
     {
-      path: '/gui/processes/task',
+      path: '/gui/processes/task_local',
       name: 'Задача',
-      component: TaskView,
+      component: TaskLocalView,
       meta: { 
         requiresAuth: true,
         pageName: "Задача",

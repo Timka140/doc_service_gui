@@ -5,6 +5,8 @@ export const docxServicesStore = defineStore("docx_services", {
   state: () => ({
     ws: wsStore(),
     services: {},
+    check_all: false,
+    disable_stop_all: true,
   }),
   getters: {
     Data: (state) => {
@@ -14,6 +16,12 @@ export const docxServicesStore = defineStore("docx_services", {
       }
       return services;
     },
+    CheckAll: (state) =>{
+      return state.check_all;
+    },
+    DisableStopAll: (state) =>{
+      return state.disable_stop_all;
+    }
   },
   actions: {
     Init() {
@@ -59,11 +67,20 @@ export const docxServicesStore = defineStore("docx_services", {
 
       this.services[pid]["select"] = checked;
 
+      this.disable_stop_all = true;
+      for (let p in this.services) {
+        let s = this.services[p]["select"];
+        if (s == true) {
+          this.disable_stop_all = false;
+        }
+      }
+
       console.log(checked, pid, this.services);
     },
 
     SelectAll(event) {
       let checked = event.target.checked;
+      this.check_all = checked;
       for (let pid in this.services) {
         this.services[pid]["select"] = checked;
       }
@@ -76,6 +93,7 @@ export const docxServicesStore = defineStore("docx_services", {
         execution: "stop",
         services: this.services,
       });
+      this.check_all = false;
     },
   },
 });

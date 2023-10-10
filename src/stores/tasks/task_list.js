@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
 import { wsStore } from "@/stores/ws";
-import { taskStore } from "@/stores/tasks/task";
+import { taskLocalStore } from "@/stores/tasks/task_local";
 import router from "@/router";
 
 export const taskListStore = defineStore("task_list", {
   state: () => ({
     ws: wsStore(),
-    task: taskStore(),
+    task: taskLocalStore(),
     path: "",
     tasks: {},
   }),
@@ -148,7 +148,7 @@ export const taskListStore = defineStore("task_list", {
       }
       if (data.Tp == 3) {//Task
         this.task.SetTask(data)
-        router.push('/gui/processes/task');
+        router.push('/gui/processes/task_local');
       }
     },
     OpenToPath(path) {

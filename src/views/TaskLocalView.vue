@@ -76,13 +76,13 @@
 <script>
 import LeftMenu from '@/components/LeftMenu.vue';
 import { wsStore } from "@/stores/ws";
-import { taskStore } from '@/stores/tasks/task';
+import { taskLocalStore } from '@/stores/tasks/task_local';
 
 export default {
     name: "TaskView",
     setup() {
         let ws = wsStore();
-        let task = taskStore();
+        let task = taskLocalStore();
         return {
             ws,
             task,

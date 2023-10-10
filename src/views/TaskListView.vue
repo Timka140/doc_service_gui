@@ -17,11 +17,11 @@
                                                 <button type="button" class="btn btn-danger"><font-awesome-icon
                                                         icon="fa-solid fa-trash" /></button>
                                             </div>
-                                            <div class="input-group me-2">
+                                            <!-- <div class="input-group me-2">
                                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                                     data-bs-target="#modalBaseCreate"><font-awesome-icon
                                                         icon="fa-solid fa-database" /></button>
-                                            </div>
+                                            </div> -->
                                             <div class="input-group me-2">
                                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                                     data-bs-target="#modalCatalogCreate"><font-awesome-icon
@@ -92,7 +92,7 @@
                     </div>
                 </div>
             </main>
-            <ModalBaseCreate :idModal="'modalBaseCreate'" />
+            <!-- <ModalBaseCreate :idModal="'modalBaseCreate'" /> -->
             <ModalCatalogCreate :idModal="'modalCatalogCreate'" />
             <ModalTaskCreate :idModal="'modalTemplateCreate'" />
         </div>
@@ -105,7 +105,7 @@ import { wsStore } from "@/stores/ws";
 import { useRoute } from 'vue-router';
 import { taskListStore } from '@/stores/tasks/task_list'
 
-import ModalBaseCreate from '@/components/modals/ModalBaseCreate.vue';
+// import ModalBaseCreate from '@/components/modals/ModalBaseCreate.vue';
 import ModalCatalogCreate from '@/components/modals/ModalCatalogCreate.vue';
 import ModalTaskCreate from '@/components/modals/ModalTaskCreate.vue';
 import BreadcrumbMenu from '@/components/BreadcrumbMenu.vue';
@@ -146,7 +146,7 @@ export default {
     },
     components: {
         LeftMenu,
-        ModalBaseCreate,
+        // ModalBaseCreate,
         ModalCatalogCreate,
         ModalTaskCreate,
         BreadcrumbMenu,

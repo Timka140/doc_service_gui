@@ -24,7 +24,7 @@
                                                     aria-label="Input group example">
                                             </div>
                                             <div class="btn-group me-2" role="group">
-                                                <button type="button" @click="docx.StopAllServices()" class="btn btn-danger"><font-awesome-icon
+                                                <button type="button" @click="docx.StopAllServices()" :disabled="docx.DisableStopAll" class="btn btn-danger"><font-awesome-icon
                                                         icon="fa-solid fa-stop" /></button>
                                             </div>
                                         </div>
@@ -44,7 +44,7 @@
                                     <tr>
                                         <th scope="col" style="width: 50px;">
                                             <div class="form-check">
-                                                <input class="form-check-input" @change="docx.SelectAll($event)" type="checkbox">
+                                                <input class="form-check-input" @change="docx.SelectAll($event)" :checked="docx.CheckAll" type="checkbox">
                                             </div>
                                         </th>
                                         <th scope="col" style="width: 50px;">

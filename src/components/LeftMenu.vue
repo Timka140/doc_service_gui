@@ -70,7 +70,7 @@ export default {
                 {
                     tp: "item",
                     to: "/gui/processes",
-                    name: "Процессы",
+                    name: "Локальные процессы",
                     selected: false,
                 },
                 {
