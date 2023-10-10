@@ -66,16 +66,7 @@ export const docxServicesStore = defineStore("docx_services", {
       let checked = event.target.checked;
 
       this.services[pid]["select"] = checked;
-
-      this.disable_stop_all = true;
-      for (let p in this.services) {
-        let s = this.services[p]["select"];
-        if (s == true) {
-          this.disable_stop_all = false;
-        }
-      }
-
-      console.log(checked, pid, this.services);
+      this.checkStopBtn()
     },
 
     SelectAll(event) {
@@ -84,6 +75,7 @@ export const docxServicesStore = defineStore("docx_services", {
       for (let pid in this.services) {
         this.services[pid]["select"] = checked;
       }
+      this.checkStopBtn()
     },
 
     StopAllServices() {
@@ -95,5 +87,14 @@ export const docxServicesStore = defineStore("docx_services", {
       });
       this.check_all = false;
     },
+    checkStopBtn() {
+      this.disable_stop_all = true;
+      for (let p in this.services) {
+        let s = this.services[p]["select"];
+        if (s == true) {
+          this.disable_stop_all = false;
+        }
+      }
+    }
   },
 });

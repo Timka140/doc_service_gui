@@ -28,6 +28,7 @@ import {
   faFile,
   faHouse,
   faPlus,
+  faSpinner
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -48,7 +49,8 @@ library.add(
   faFolder,
   faFile,
   faHouse,
-  faPlus
+  faPlus,
+  faSpinner
 );
 
 import App from "./App.vue";

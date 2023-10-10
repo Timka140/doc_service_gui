@@ -51,17 +51,27 @@
                     <h5 class="card-header">Данные</h5>
                     <div class="card-body">
                         <div class="col-12">
+                            <div class="mb-3">
+                                <label for="formFile" class="form-label">Файл для загрузки в базу</label>
+                                <input class="form-control" type="file" id="fileXlsx">
+                            </div>
+                        </div>
+                        <div class="col-12">
                             <div class="d-flex bd-highlight">
                                 <div class="p-2 bd-highlight">
                                     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                                         <div class="btn-group me-2" role="group">
-                                            <button type="button" class="btn btn-primary"><font-awesome-icon icon="fa-solid fa-plus" /></button>
+                                            <button type="button" @click="task.AddTable($event)" class="btn btn-primary"  :disabled="task.LoadFileState != 0">
+                                                <font-awesome-icon v-if="task.LoadFileState == 0" icon="fa-solid fa-plus" />
+                                                <font-awesome-icon v-if="task.LoadFileState == 1" icon="fa-solid fa-spinner" spin />
+                                                <font-awesome-icon v-if="task.LoadFileState == 2" icon="fa-solid fa-check" />
+                                            </button>
                                         </div>
                                     </div>
 
                                 </div>
                                 <div class="p-2 flex-grow-1 bd-highlight">
-                                    
+
                                 </div>
                             </div>
                         </div>
