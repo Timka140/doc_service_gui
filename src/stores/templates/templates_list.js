@@ -9,6 +9,9 @@ export const templatesListStore = defineStore("templates_list", {
     temp: templateLocalStore(),
     path: "",
     temps: {},
+
+    check_all: false,
+    disable_delete_all: true,
   }),
   getters: {
     Data: (state) => {
@@ -19,7 +22,6 @@ export const templatesListStore = defineStore("templates_list", {
 
       return temp;
     },
-
     Path: (state) => {
       if (state.path == undefined) {
         state.path = "";
@@ -50,6 +52,13 @@ export const templatesListStore = defineStore("templates_list", {
         };
       }
       return data;
+    },
+
+    CheckAll: (state) =>{
+      return state.check_all;
+    },
+    DisableDeleteAll: (state) =>{
+      return state.disable_delete_all;
     },
   },
   actions: {
@@ -101,14 +110,7 @@ export const templatesListStore = defineStore("templates_list", {
       this.temps = data.temps;
       this.path = data.path;
     },
-    SelectRow(event, pid) {
-      let checked = event.target.checked;
-
-      this.temps[pid]["select"] = checked;
-
-      console.log(checked, pid, this.temps);
-    },
-    CreateTask(data) {
+    CreateTemplate(data) {
       this.ws.Send({
         tp: "TemplatesCreate",
         cmd: "Start",
@@ -164,7 +166,37 @@ export const templatesListStore = defineStore("templates_list", {
       console.log(data)
     },
     Remove() {
-      console.log("ok")
+      this.ws.Send({
+        tp: "TemplatesCreate",
+        cmd: "Start",
+        path: this.getPath(),
+        execution: "remove",
+        temps: this.temps,
+      });
     },
+
+    SelectRow(event, index) {
+      let checked = event.target.checked;
+      this.temps[index]["select"] = checked;
+      this.checkDeleteBtn()
+    },
+
+    SelectAll(event) {
+      let checked = event.target.checked;
+      this.check_all = checked;
+      for (let index in this.temps) {
+        this.temps[index]["select"] = checked;
+      }
+      this.checkDeleteBtn()
+    },
+    checkDeleteBtn() {
+      this.disable_delete_all = true;
+      for (let p in this.temps) {
+        let s = this.temps[p]["select"];
+        if (s == true) {
+          this.disable_delete_all = false;
+        }
+      }
+    }
   },
 });

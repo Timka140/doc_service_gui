@@ -69,7 +69,7 @@ export default {
                                     <div class="p-2 bd-highlight">
                                         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                                             <div class="btn-group me-4" role="group">
-                                                <button type="button" @click="tmp.Remove()" class="btn btn-danger"><font-awesome-icon
+                                                <button type="button" @click="tmp.Remove()" :disabled="tmp.DisableDeleteAll" class="btn btn-danger"><font-awesome-icon
                                                         icon="fa-solid fa-trash" /></button>
                                             </div>
                                             <!-- <div class="input-group me-2">
@@ -112,7 +112,7 @@ export default {
                                     <tr>
                                         <th scope="col" style="width: 50px;">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox">
+                                                <input class="form-check-input" type="checkbox" :checked="tmp.CheckAll">
                                             </div>
                                         </th>
                                         <th scope="col" style="width: 50px;">
@@ -123,11 +123,11 @@ export default {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(item) in tmp.Data" :key="item.Pid">
+                                    <tr v-for="(item,index) in tmp.Data" :key="item.Pid">
                                         <th>
                                             <div class="form-check">
                                                 <input class="form-check-input"
-                                                    :checked="item.select" type="checkbox" value="" id="flexCheckDefault">
+                                                    :checked="item.select" @change="tmp.SelectRow($event, index)" type="checkbox" value="" id="flexCheckDefault">
                                             </div>
                                         </th>
                                         <td>{{ item.index }}</td>

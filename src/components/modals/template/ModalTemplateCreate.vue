@@ -9,14 +9,14 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Название шаблона</label>
-                        <input type="text" @change="this.task_info.name = $event.target.value" class="form-control"
+                        <input type="text" v-model="this.template_info.name" class="form-control"
                             placeholder="Введите название шаблона">
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><font-awesome-icon
                             icon="fa-solid fa-xmark" /></button>
-                    <button type="button" data-bs-dismiss="modal" @click="temp.CreateTask(this.task_info)" class="btn btn-success"><font-awesome-icon icon="fa-solid fa-check" /></button>
+                    <button type="button" data-bs-dismiss="modal" @click="Send()" class="btn btn-success"><font-awesome-icon icon="fa-solid fa-check" /></button>
                 </div>
             </div>
         </div>
@@ -41,9 +41,15 @@ export default {
     },
     data() {
         return {
-            task_info: {
+            template_info: {
                 name: "",     
             }
+        }
+    },
+    methods: {
+        Send(){
+            this.temp.CreateTemplate(this.template_info)
+            this.template_info.name = ""
         }
     },
 }

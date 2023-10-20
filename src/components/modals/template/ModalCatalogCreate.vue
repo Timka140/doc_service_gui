@@ -15,7 +15,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><font-awesome-icon
                             icon="fa-solid fa-xmark" /></button>
-                    <button type="button" data-bs-dismiss="modal" @click="temp.CreateCatalog(this.catalog_info)" class="btn btn-success"><font-awesome-icon icon="fa-solid fa-check" /></button>
+                    <button type="button" data-bs-dismiss="modal" @click="Send()" class="btn btn-success"><font-awesome-icon icon="fa-solid fa-check" /></button>
                 </div>
             </div>
         </div>
@@ -42,6 +42,12 @@ export default {
             }
         }
     },
+    methods: {
+        Send(){
+            this.temp.CreateCatalog(this.catalog_info)
+            this.catalog_info.name = ""
+        }
+    }
 }
 </script>
 
