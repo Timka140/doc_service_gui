@@ -2,23 +2,23 @@
 import LeftMenu from '@/components/menu/LeftMenu.vue';
 import { wsStore } from "@/stores/ws";
 import { useRoute } from 'vue-router';
-import { taskListStore } from '@/stores/tasks/task_list'
+import { templatesListStore } from '@/stores/templates/templates_list';
 
-// import ModalBaseCreate from '@/components/modals/ModalBaseCreate.vue';
-import ModalCatalogCreate from '@/components/modals/tasks/ModalCatalogCreate.vue';
-import ModalTaskCreate from '@/components/modals/tasks/ModalTaskCreate.vue';
+
+import ModalCatalogCreate from '@/components/modals/template/ModalCatalogCreate.vue';
+import ModalTemplateCreate from '@/components/modals/template/ModalTemplateCreate.vue';
 import BreadcrumbMenu from '@/components/menu/BreadcrumbMenu.vue';
 
 export default {
-    name: "TaskListView",
+    name: "TemplatesListView",
     setup() {
         const route = useRoute();
-        const tasks = taskListStore();
+        const tmp = templatesListStore();
         let ws = wsStore();
         return {
             ws,
             route,
-            tasks,
+            tmp: tmp,
         }
     },
     data() {
@@ -34,7 +34,7 @@ export default {
 
     },
     created() {
-        this.tasks.Init();
+        this.tmp.Init();
         // console.log(this.route.path)
     },
 
@@ -45,9 +45,9 @@ export default {
     },
     components: {
         LeftMenu,
-        // ModalBaseCreate,
+
         ModalCatalogCreate,
-        ModalTaskCreate,
+        ModalTemplateCreate,
         BreadcrumbMenu,
     },
 }
@@ -60,7 +60,7 @@ export default {
         </div>
         <div class="flex-fill bd-highlight b-site">
             <main class="container-fluid mt-2">
-                <h1 class="mb-4">Список процессов</h1>
+                <h1 class="mb-4">Список шаблонов</h1>
                 <div class="card mb-4">
                     <div class="card-body">
                         <div class="row">
@@ -69,7 +69,7 @@ export default {
                                     <div class="p-2 bd-highlight">
                                         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                                             <div class="btn-group me-4" role="group">
-                                                <button type="button" class="btn btn-danger"><font-awesome-icon
+                                                <button type="button" @click="tmp.Remove()" class="btn btn-danger"><font-awesome-icon
                                                         icon="fa-solid fa-trash" /></button>
                                             </div>
                                             <!-- <div class="input-group me-2">
@@ -104,7 +104,7 @@ export default {
                             </div>
                         </div>
                         <div class="row">
-                            <BreadcrumbMenu :items="tasks.Path" :open="tasks.OpenToPath"/>
+                            <BreadcrumbMenu :items="tmp.Path" :open="tmp.OpenToPath"/>
                         </div>
                         <div class="row">
                             <table class="table">
@@ -123,7 +123,7 @@ export default {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(item) in tasks.Data" :key="item.Pid">
+                                    <tr v-for="(item) in tmp.Data" :key="item.Pid">
                                         <th>
                                             <div class="form-check">
                                                 <input class="form-check-input"
@@ -136,9 +136,9 @@ export default {
                                             <font-awesome-icon v-if="item.Tp == 2" icon="fa-solid fa-folder" />
                                             <font-awesome-icon v-if="item.Tp == 3" icon="fa-solid fa-file" />
                                         </td>
-                                        <td class="catalog-hover" @dblclick="tasks.Open(item)">{{ item.Name }}</td>
+                                        <td class="catalog-hover" @dblclick="tmp.Open(item)">{{ item.Name }}</td>
                                     </tr>
-                                    <tr v-if="tasks.Data.length == 0">
+                                    <tr v-if="tmp.Data.length == 0">
                                         <td colspan="4">Пусто</td>
                                     </tr>
                                 </tbody>
@@ -149,7 +149,7 @@ export default {
             </main>
             <!-- <ModalBaseCreate :idModal="'modalBaseCreate'" /> -->
             <ModalCatalogCreate :idModal="'modalCatalogCreate'" />
-            <ModalTaskCreate :idModal="'modalTemplateCreate'" />
+            <ModalTemplateCreate :idModal="'modalTemplateCreate'" />
         </div>
     </div>
 </template>

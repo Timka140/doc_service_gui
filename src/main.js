@@ -28,7 +28,10 @@ import {
   faFile,
   faHouse,
   faPlus,
-  faSpinner
+  faSpinner,
+  faFileWord,
+  faFileExcel,
+  faFilePdf,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -50,7 +53,10 @@ library.add(
   faFile,
   faHouse,
   faPlus,
-  faSpinner
+  faSpinner,
+  faFileWord,
+  faFileExcel,
+  faFilePdf,
 );
 
 import App from "./App.vue";
@@ -67,7 +73,7 @@ import { authStore } from "@/stores/auth";
 import { wsStore } from "@/stores/ws";
 const ws = wsStore();
 const auth = authStore();
-if (auth.Token != "") {
+if (auth.isLogin) {
   await ws.Init();
 }
 

@@ -67,12 +67,34 @@ export default {
                     name: "Главная",
                     selected: false,
                 },
+                // {
+                //     tp: "item",
+                //     to: "/gui/processes",
+                //     name: "Локальные процессы",
+                //     selected: false,
+                // },
                 {
                     tp: "item",
-                    to: "/gui/processes",
-                    name: "Локальные процессы",
+                    to: "/gui/templates/list",
+                    name: "Шаблоны",
                     selected: false,
                 },
+                // {
+                //     tp: "items",
+                //     name: "Шаблоны",
+                //     links: [
+                //         {
+                //             to: "/gui/templates/docx",
+                //             name: "Docx",
+                //             selected: false,
+                //         },
+                //         {
+                //             to: "/gui/templates/xlsx",
+                //             name: "Xlsx",
+                //             selected: false,
+                //         },
+                //     ]
+                // },
                 {
                     tp: "items",
                     name: "Микросервисы",
@@ -80,6 +102,16 @@ export default {
                         {
                             to: "/gui/services/docx",
                             name: "Docx",
+                            selected: false,
+                        },
+                        {
+                            to: "/gui/services/xlsx",
+                            name: "Xlsx",
+                            selected: false,
+                        },
+                        {
+                            to: "/gui/services/pdf",
+                            name: "Pdf",
                             selected: false,
                         }
                     ]

@@ -8,6 +8,7 @@ export const authStore = defineStore("auth", {
   state: () => ({
     ws: wsStore(),
     token: localStorage.getItem("token"),
+    isLogin: false,
     login: "",
     password: "",
 

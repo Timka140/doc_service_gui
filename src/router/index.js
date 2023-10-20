@@ -1,12 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from "@/views/LoginView.vue"
-import DocxServicesView from "@/views/DocxServicesView.vue"
+import DocxServicesView from "@/views/services/DocxServicesView.vue"
 import TaskListView from "@/views/TaskListView.vue"
+import TemplatesListView from "@/views/TemplatesListView.vue"
 import TaskLocalView from "@/views/TaskLocalView.vue"
 // import AboutView from "@/views/AboutView.vue"
+import XlsxServicesViewVue from '@/views/services/XlsxServicesView.vue'
+import PdfServicesView from '@/views/services/PdfServicesView.vue'
 
 import { authStore } from '../stores/auth'
+
+
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
@@ -39,6 +44,15 @@ const router = createRouter({
       }
     },
     {
+      path: '/gui/templates/list',
+      name: 'Процессы',
+      component: TemplatesListView,
+      meta: { 
+        requiresAuth: true,
+        pageName: "Шаблоны",
+      }
+    },
+    {
       path: '/gui/processes/task_local',
       name: 'Задача',
       component: TaskLocalView,
@@ -55,7 +69,25 @@ const router = createRouter({
         requiresAuth: true,
         pageName: "Микросервисы docx",
       }
-    }
+    },
+    {
+      path: '/gui/services/xlsx',
+      name: 'Микросервисы xlsx',
+      component: XlsxServicesViewVue,
+      meta: { 
+        requiresAuth: true,
+        pageName: "Микросервисы xlsx",
+      }
+    },
+    {
+      path: '/gui/services/pdf',
+      name: 'Микросервисы pdf',
+      component: PdfServicesView,
+      meta: { 
+        requiresAuth: true,
+        pageName: "Микросервисы pdf",
+      }
+    },
   ]
 })
 

@@ -38,6 +38,15 @@ export const wsStore = defineStore("ws", {
         }
       }
 
+      if (th.socket.readyState == 3) {
+        th.open = await this.Connect();
+
+        if (!th.open) {
+          console.log("Не удалось открыть соединение");
+          return;
+        }
+      }
+
       th.socket.addEventListener("message", (event) => {
         if (!event.data) {
           return;

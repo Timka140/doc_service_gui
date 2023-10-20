@@ -1,3 +1,42 @@
+<script>
+import LeftMenu from '@/components/menu/LeftMenu.vue';
+import { wsStore } from "@/stores/ws";
+import { taskLocalStore } from '@/stores/tasks/task_local';
+
+export default {
+    name: "TaskView",
+    setup() {
+        let ws = wsStore();
+        let task = taskLocalStore();
+        return {
+            ws,
+            task,
+        }
+    },
+    data() {
+        return {
+        }
+    },
+
+    close() {
+
+    },
+    unmounted() {
+
+    },
+    created() {
+        this.task.Init();
+    },
+
+    methods: {
+    },
+    components: {
+        LeftMenu,
+    },
+}
+</script>
+
+
 <template>
     <div class="d-flex bd-highlight" style="height: 100vh;">
         <div class="bd-highlight">
@@ -47,7 +86,7 @@
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card mb-2">
                     <h5 class="card-header">Данные</h5>
                     <div class="card-body">
                         <div class="col-12">
@@ -61,10 +100,13 @@
                                 <div class="p-2 bd-highlight">
                                     <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                                         <div class="btn-group me-2" role="group">
-                                            <button type="button" @click="task.AddTable($event)" class="btn btn-primary"  :disabled="task.LoadFileState != 0">
+                                            <button type="button" @click="task.AddTable($event)" class="btn btn-primary"
+                                                :disabled="task.LoadFileState != 0">
                                                 <font-awesome-icon v-if="task.LoadFileState == 0" icon="fa-solid fa-plus" />
-                                                <font-awesome-icon v-if="task.LoadFileState == 1" icon="fa-solid fa-spinner" spin />
-                                                <font-awesome-icon v-if="task.LoadFileState == 2" icon="fa-solid fa-check" />
+                                                <font-awesome-icon v-if="task.LoadFileState == 1" icon="fa-solid fa-spinner"
+                                                    spin />
+                                                <font-awesome-icon v-if="task.LoadFileState == 2"
+                                                    icon="fa-solid fa-check" />
                                             </button>
                                         </div>
                                     </div>
@@ -78,47 +120,34 @@
                     </div>
                 </div>
 
+                <div class="d-flex align-content-stretch flex-wrap">
+                    <div class="card me-2 mb-2 flex-fill bd-highlight">
+                        <div class="card-header">
+                            Featured
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">An item</li>
+                            <li class="list-group-item">A second item</li>
+                            <li class="list-group-item">A third item</li>
+                        </ul>
+                    </div>
+                    <div class="card me-2 mb-2 flex-fill bd-highlight">
+                        <div class="card-header">
+                            Featured
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">An item</li>
+                            <li class="list-group-item">A second item</li>
+                            <li class="list-group-item">A third item</li>
+                        </ul>
+                    </div>
+                </div>
+
             </main>
         </div>
     </div>
 </template>
 
-<script>
-import LeftMenu from '@/components/LeftMenu.vue';
-import { wsStore } from "@/stores/ws";
-import { taskLocalStore } from '@/stores/tasks/task_local';
+<style scoped>
 
-export default {
-    name: "TaskView",
-    setup() {
-        let ws = wsStore();
-        let task = taskLocalStore();
-        return {
-            ws,
-            task,
-        }
-    },
-    data() {
-        return {
-        }
-    },
-
-    close() {
-
-    },
-    unmounted() {
-
-    },
-    created() {
-        this.task.Init();
-    },
-
-    methods: {
-    },
-    components: {
-        LeftMenu,
-    },
-}
-</script>
-
-<style scoped></style>
+</style>

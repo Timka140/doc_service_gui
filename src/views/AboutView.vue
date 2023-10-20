@@ -1,6 +1,7 @@
 <script setup>
-import LeftMenu from '@/components/LeftMenu.vue';
+import LeftMenu from '@/components/menu/LeftMenu.vue';
 </script>
+
 
 <template>
   <div class="d-flex bd-highlight" style="height: 100vh;">

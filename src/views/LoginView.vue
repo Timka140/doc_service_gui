@@ -1,32 +1,28 @@
-<style scoped>
-.b-image {
-  position: fixed;
-  width: 100%;
-}
+<script>
+import { authStore } from '../stores/auth';
+export default {
+  name: "LoginView",
+  setup() {
+    let auth = authStore();
 
-.b-noise {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  display: block;
-  background: #E1E8ED;
-  /* margin-right: -50px;
-  background: hsla(0, 0%, 5%, 0.55);
-  backdrop-filter: blur(20px); */
-}
+    return {
+      auth,
+    }
+  },
+  data() {
+    return {
+      login: "",
+      password: "",
+    }
+  },
+  methods: {
+    Send() {
 
-.cascading-right {
-  margin-right: -50px;
-  background: hsla(0, 80%, 100%, 0.55);
-  backdrop-filter: blur(30px);
+    },
+  },
+  components: {},
 }
-
-@media (max-width: 991.98px) {
-  .cascading-right {
-    margin-right: 0;
-  }
-}
-</style>
+</script>
 
 <template>
   <main>
@@ -81,28 +77,34 @@
   </main>
 </template>
 
-<script>
-import { authStore } from '../stores/auth';
-export default {
-  name: "LoginView",
-  setup() {
-    let auth = authStore();
 
-    return {
-      auth,
-    }
-  },
-  data() {
-    return {
-      login: "",
-      password: "",
-    }
-  },
-  methods: {
-    Send() {
 
-    },
-  },
-  components: {},
+<style scoped>
+.b-image {
+  position: fixed;
+  width: 100%;
 }
-</script>
+
+.b-noise {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: #E1E8ED;
+  /* margin-right: -50px;
+  background: hsla(0, 0%, 5%, 0.55);
+  backdrop-filter: blur(20px); */
+}
+
+.cascading-right {
+  margin-right: -50px;
+  background: hsla(0, 80%, 100%, 0.55);
+  backdrop-filter: blur(30px);
+}
+
+@media (max-width: 991.98px) {
+  .cascading-right {
+    margin-right: 0;
+  }
+}
+</style>

@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { wsStore } from "@/stores/ws";
 
-export const docxServicesStore = defineStore("docx_services", {
+export const xlsxServicesStore = defineStore("xlsx_services", {
   state: () => ({
     ws: wsStore(),
     services: {},
@@ -35,7 +35,7 @@ export const docxServicesStore = defineStore("docx_services", {
   actions: {
     Init() {
       this.ws.Send({
-        tp: "ListDocxServices",
+        tp: "ListXlsxServices",
         cmd: "Start",
         execution: "list",
       });
@@ -58,14 +58,14 @@ export const docxServicesStore = defineStore("docx_services", {
     },
     Info() {
       this.ws.Send({
-        tp: "ListDocxServices",
+        tp: "ListXlsxServices",
         cmd: "Start",
         execution: "info",
       });
     },
     StartServices(val) {
       this.ws.Send({
-        tp: "RunDocxServices",
+        tp: "RunXlsxServices",
         cmd: "Start",
         execution: "start",
         quantity: val+"",
@@ -89,7 +89,7 @@ export const docxServicesStore = defineStore("docx_services", {
 
     StopAllServices() {
       this.ws.Send({
-        tp: "RunDocxServices",
+        tp: "RunXlsxServices",
         cmd: "Start",
         execution: "stop",
         services: this.services,
