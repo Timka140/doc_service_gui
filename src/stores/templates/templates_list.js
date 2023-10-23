@@ -141,16 +141,12 @@ export const templatesListStore = defineStore("templates_list", {
       if (data.Tp == undefined) {
         return
       }
-
-      if (data.Tp == 1) { //Store
-        this.open(data)
-      }
       if (data.Tp == 2) { //Catalog
         this.open(data)
       }
-      if (data.Tp == 3) {//Task
-        this.tmp.SetTask(data)
-        router.push('/gui/processes/task_local');
+      if (data.Tp == 3) {//Template
+        this.temp.SetTemplate(data)
+        router.push('/gui/templates/template');
       }
     },
     OpenToPath(path) {

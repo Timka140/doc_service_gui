@@ -3,11 +3,12 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from "@/views/LoginView.vue"
 import DocxServicesView from "@/views/services/DocxServicesView.vue"
 import TaskListView from "@/views/TaskListView.vue"
-import TemplatesListView from "@/views/TemplatesListView.vue"
 import TaskLocalView from "@/views/TaskLocalView.vue"
 // import AboutView from "@/views/AboutView.vue"
 import XlsxServicesViewVue from '@/views/services/XlsxServicesView.vue'
 import PdfServicesView from '@/views/services/PdfServicesView.vue'
+import TemplatesListView from "@/views/TemplatesListView.vue"
+import TemplateView from '@/views/TemplateView.vue'
 
 import { authStore } from '../stores/auth'
 
@@ -45,11 +46,20 @@ const router = createRouter({
     },
     {
       path: '/gui/templates/list',
-      name: 'Процессы',
+      name: 'Шаблоны',
       component: TemplatesListView,
       meta: { 
         requiresAuth: true,
         pageName: "Шаблоны",
+      }
+    },
+    {
+      path: '/gui/templates/template',
+      name: 'Шаблон',
+      component: TemplateView,
+      meta: { 
+        requiresAuth: true,
+        pageName: "Шаблон",
       }
     },
     {

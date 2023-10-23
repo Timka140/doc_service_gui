@@ -24,7 +24,7 @@ export const templateLocalStore = defineStore("template", {
     ReadData(data) {
       console.log(data)
     },
-    SetTask(data) {
+    SetTemplate(data) {
         if (data == undefined) {
             return
         }

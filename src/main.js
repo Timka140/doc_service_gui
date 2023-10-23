@@ -32,6 +32,7 @@ import {
   faFileWord,
   faFileExcel,
   faFilePdf,
+  faDownload,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -57,6 +58,7 @@ library.add(
   faFileWord,
   faFileExcel,
   faFilePdf,
+  faDownload,
 );
 
 import App from "./App.vue";
