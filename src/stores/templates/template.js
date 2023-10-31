@@ -1,70 +1,115 @@
 import { defineStore } from "pinia";
 import { wsStore } from "@/stores/ws";
+import axios from "axios";
 
 export const templateLocalStore = defineStore("template", {
   state: () => ({
     ws: wsStore(),
-    task_id: localStorage.getItem("task_id"),
-    load_file_state: 0,
+    template_name: localStorage.getItem("template_name"),
+    template_id: localStorage.getItem("template_id"),
+    tmp: {},
   }),
   getters: {
-    LoadFileState: (state)=>{
-      return state.load_file_state;
-    }
+    Data: (state) => {
+      console.log(state)
+      return [];
+    },
+    LoadFile: (state) => {
+      let file = false;
+      if (state.tmp.load_file) {
+        file = state.tmp.load_file;
+      }
+      return file
+    },
+    NameFile: (state) => {
+      let name = false;
+      if (state.tmp.file_name) {
+        name = state.tmp.file_name;
+      }
+      return name
+    },
+    TemplateName: (state) => {
+      let name = "";
+      if (state.template_name) {
+        name = state.template_name;
+      }
+      return name
+    },
+    TemplateID: (state) => {
+      let id = "";
+      if (state.template_id) {
+        id = state.template_id;
+      }
+      return id
+    },
+    TmUpdate: (state)=>{
+      return state.tmp.tm_update
+    },
   },
   actions: {
     Init() {
       this.ws.Send({
-        tp: "TaskLocal",
+        tp: "Template",
         cmd: "Start",
         execution: "init",
-        task_id: this.task_id,
+        template_id: this.template_id,
       });
     },
     ReadData(data) {
-      console.log(data)
+      this.tmp = data;
+      // console.log(data);
     },
     SetTemplate(data) {
-        if (data == undefined) {
-            return
-        }
-
-        if (data.Id == undefined ) {
-            data.Id = 0;
-        }
-        
-        localStorage.setItem("task_id", data.Id);
-    },
-    AddTable() {
-      let th = this;
-      th.load_file_state = 0;
-      
-      const xhr = new XMLHttpRequest();
-      const fd = new FormData();
-      let file = document.getElementById("fileXlsx");
-      if (file.files.length == 0 ) {
-        return
+      if (data == undefined) {
+        return;
       }
+      if (data.Id == undefined) {
+        data.Id = 0;
+      }
+      localStorage.setItem("template_name", data.Name);
+      localStorage.setItem("template_id", data.Id);
+    },
+    UpLoadFile() {
+      let file = document.getElementById("template_form");
+      if (file.files.length == 0) {
+        return;
+      }
+      let th = this;
 
-      th.load_file_state = 1;
-
-      fd.append("task_id", th.task_id)
-      fd.append("file", file.files[0])
-      
-
-      xhr.open("POST", "/api/load_task_data")
-      xhr.onload = function() {
-        if (xhr.status != 200) {
-          console.log(xhr.status)
-        } else {
-          th.load_file_state = 2;
-          setTimeout(() => {
-            th.load_file_state = 0;
-          }, 1000);
+      var fd = new FormData();
+      fd.append("file", file.files[0]);
+      fd.append("template_id", this.template_id);
+      axios.post("/api/load_template", fd, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }).then(resp =>{
+        if (resp.status != 200) {
+          return
         }
-      };
+        th.Init();
+      });
+    },
+    OpenTemplate(){
+      let th = this;
+      var fd = new FormData();
+      fd.append("template_id", this.template_id);
+      axios.post("/desktop/open_template", fd, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }).then(resp =>{
+        if (resp.status != 200) {
+          return
+        }
+        th.Init();
+      });
+    },
+    SelectRow() {
 
-      xhr.send(fd);
-    }
+    },
+    CheckAll() {
+
+    },
   },
 });

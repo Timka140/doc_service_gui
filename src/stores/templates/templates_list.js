@@ -7,7 +7,7 @@ export const templatesListStore = defineStore("templates_list", {
   state: () => ({
     ws: wsStore(),
     temp: templateLocalStore(),
-    path: "",
+    path: localStorage.getItem("pathTemplates"),
     temps: {},
 
     check_all: false,
@@ -94,6 +94,7 @@ export const templatesListStore = defineStore("templates_list", {
         tp: "TemplateList",
         cmd: "Start",
         execution: "list",
+        path: this.getPath(),
       });
     },
     Render(data) {
@@ -108,6 +109,7 @@ export const templatesListStore = defineStore("templates_list", {
       }
 
       this.temps = data.temps;
+      localStorage.setItem("pathTemplates", data.path);
       this.path = data.path;
     },
     CreateTemplate(data) {

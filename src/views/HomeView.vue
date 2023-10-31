@@ -1,15 +1,20 @@
 <script>
+// import { ref, onMounted } from 'vue';
 import LeftMenu from '@/components/menu/LeftMenu.vue';
 import { wsStore } from "@/stores/ws"
-import Chart from 'chart.js/auto';
+
+
+import { dashboardStore } from '@/stores/dashboard/dashboard';
 
 export default {
   name: "DocxServicesView",
   setup() {
     let ws = wsStore();
+    let dashboard = dashboardStore();
 
     return {
       ws,
+      dashboard,
     }
   },
   data() {
@@ -17,8 +22,19 @@ export default {
       charts: [],
     }
   },
+  // updated(){
+  //   this.$nextTick(function () {
+  //   // Код, который будет запущен только после
+  //   // переотрисовки всех представлений
+  // })
+  // },
   mounted() {
-    this.renderChart()
+    this.dashboard.InitChart('docxChart','docx')
+    this.dashboard.InitChart('xlsxChart','xlsx')
+    this.dashboard.InitChart('pdfChart','pdf')
+
+    this.dashboard.Init();
+    // this.renderChart()
   },
   methods: {
     Send() {
@@ -26,67 +42,6 @@ export default {
         tp: "test",
         data: "data",
       })
-    },
-    setChart(e) {
-      if (!e) {
-        return
-      }
-      this.charts.push(e);
-    },
-    renderChart() {
-      const data = [];
-      const data2 = [];
-      let prev = 100;
-      let prev2 = 80;
-      for (let i = 0; i < 1000; i++) {
-        prev += 5 - Math.random() * 10;
-        data.push({ x: i, y: prev });
-        prev2 += 5 - Math.random() * 10;
-        data2.push({ x: i, y: prev2 });
-      }
-
-      const chartOptions = {
-        animation: {
-          duration: 0
-        },
-        interaction: {
-          intersect: false
-        },
-        plugins: {
-          legend: false,
-          title: {
-            display: true,
-            text: () => "cpu"
-          }
-        },
-        scales: {
-          x: {
-            type: 'linear'
-          }
-        }
-      };
-
-      for (let chart of this.charts) {
-        const ctx = chart.getContext('2d');
-        new Chart(ctx, {
-          type: 'line',
-          data: {
-            datasets: [{
-              // borderColor: Utils.CHART_COLORS.red,
-              borderWidth: 1,
-              radius: 0,
-              data: data,
-            },
-            {
-              // borderColor: Utils.CHART_COLORS.blue,
-              borderWidth: 1,
-              radius: 0,
-              data: data2,
-            }]
-          },
-          options: chartOptions,
-        });
-      }
     },
   },
   components: {
@@ -111,7 +66,7 @@ export default {
               <div class="box-content-big text-center">
                 <div class="m-sm">
                   <h1 class="no-margins text-black">
-                    <font-awesome-icon icon="fa-file-word" /> 0
+                    <font-awesome-icon icon="fa-file-word" /> {{ dashboard.DocxLen }}
                   </h1>
                   <small class="text-muted">Сервисы формирования документов</small>
                 </div>
@@ -125,7 +80,7 @@ export default {
             <div class="card p-3">
               <div class="box-content-big text-center">
                 <div class="m-sm">
-                  <h1 class="no-margins text-black"><font-awesome-icon icon="fa-solid fa-file-excel" /> 0</h1>
+                  <h1 class="no-margins text-black"><font-awesome-icon icon="fa-solid fa-file-excel" /> {{ dashboard.XlsxLen }}</h1>
                   <small class="text-muted">Сервисы формирования таблиц</small>
                 </div>
               </div>
@@ -138,7 +93,7 @@ export default {
             <div class="card p-3">
               <div class="box-content-big text-center">
                 <div class="m-sm">
-                  <h1 class="no-margins text-black"><font-awesome-icon icon="fa-solid fa-file-pdf" /> 0
+                  <h1 class="no-margins text-black"><font-awesome-icon icon="fa-solid fa-file-pdf" /> {{ dashboard.PdfLen }}
                   </h1>
                   <small class="text-muted">Сервисы формирования PDF</small>
                 </div>
@@ -152,7 +107,7 @@ export default {
           <div class="col-md-4">
 
             <div class="card p-3">
-              <canvas :ref="setChart"></canvas>
+              <canvas id="docxChart" ></canvas>
             </div>
 
           </div>
@@ -160,18 +115,17 @@ export default {
           <div class="col-md-4">
 
             <div class="card p-3">
-              <canvas :ref="setChart"></canvas>
+              <canvas id="xlsxChart"></canvas>
             </div>
 
           </div>
           <div class="col-md-4">
 
             <div class="card p-3">
-              <canvas :ref="setChart"></canvas>
+              <canvas id="pdfChart"></canvas>
             </div>
 
           </div>
-
         </div>
 
         <div class="row mb-4">

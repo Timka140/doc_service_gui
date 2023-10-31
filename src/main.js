@@ -33,6 +33,10 @@ import {
   faFileExcel,
   faFilePdf,
   faDownload,
+  faAngleDown,
+  faFloppyDisk,
+  faCopy,
+  faFilePen,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -59,6 +63,10 @@ library.add(
   faFileExcel,
   faFilePdf,
   faDownload,
+  faAngleDown,
+  faFloppyDisk,
+  faCopy,
+  faFilePen,
 );
 
 import App from "./App.vue";
