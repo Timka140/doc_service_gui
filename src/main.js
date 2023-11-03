@@ -37,6 +37,7 @@ import {
   faFloppyDisk,
   faCopy,
   faFilePen,
+  faGear,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -67,6 +68,7 @@ library.add(
   faFloppyDisk,
   faCopy,
   faFilePen,
+  faGear,
 );
 
 import App from "./App.vue";

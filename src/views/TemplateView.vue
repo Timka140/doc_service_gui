@@ -39,6 +39,15 @@ export default {
         Prism.highlightAll(); // highlight your code on mount
     },
     methods: {
+        async CopyCode() {
+            let text = document.getElementById('simpleCode').innerText;
+            try {
+                await navigator.clipboard.writeText(text);
+                console.log('Content copied to clipboard');
+            } catch (err) {
+                console.error('Failed to copy: ', err);
+            }
+        },
     },
     components: {
         LeftMenu,
@@ -90,7 +99,9 @@ export default {
                             <div class="col-12">
                                 <div class="mb-3">
                                     <label for="formFile" class="form-label">Файл для загрузки в базу</label>
-                                    <input class="form-control" type="file" id="template_form">
+                                    <input class="form-control" type="file"
+                                        accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                                        id="template_form">
                                 </div>
                                 <div class="d-grid gap-2">
                                     <button class="btn btn-primary" @click="tmp.UpLoadFile()"
@@ -110,7 +121,7 @@ export default {
                             </div>
                             <div class="flex-grow-1 bd-highlight"></div>
                             <div class="bd-highlight">
-                                <button class="btn btn-success me-2" type="button">
+                                <button class="btn btn-success me-2" type="button" @click="this.CopyCode()">
                                     <font-awesome-icon icon="fa-solid fa-copy" />
                                 </button>
                                 <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
@@ -123,7 +134,7 @@ export default {
                     <div class="card-body">
                         <div class="collapse" id="upCode">
                             <div class="col-12 code-container">
-                                <pre class="code"><code class="language-go">res_docx, err := tr.DocxPerform("{{tmp.TemplateID}}",
+                                <pre class="code"><code class="language-go" id="simpleCode">res_docx, err := tr.DocxPerform("{{ tmp.TemplateID }}",
 map[string]interface{}{
     "col_labels": []string{"fruit", "vegetable", "stone", "thing"},
     "tbl_contents": []interface{}{
@@ -211,6 +222,7 @@ map[string]interface{}{
     overflow-y: scroll;
     position: relative;
 }
+
 .code {
     position: relative;
     width: 100%;

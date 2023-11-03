@@ -159,9 +159,8 @@ export const taskListStore = defineStore("task_list", {
         execution: "list",
       });
     },
-    StateCreate(data) {
+    StateCreate() {
       this.update();
-      console.log(data)
     },
   },
 });

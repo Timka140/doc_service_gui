@@ -21,8 +21,8 @@ export const taskLocalStore = defineStore("task_local", {
         task_id: this.task_id,
       });
     },
-    ReadData(data) {
-      console.log(data)
+    ReadData() {
+      // console.log(data)
     },
     SetTask(data) {
         if (data == undefined) {

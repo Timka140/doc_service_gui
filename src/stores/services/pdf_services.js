@@ -40,8 +40,8 @@ export const pdfServicesStore = defineStore("pdf_services", {
         execution: "list",
       });
     },
-    Send(data) {
-      console.log(data);
+    Send() {
+      // console.log(data);
     },
     Render(data) {
       if (data.services == undefined) {

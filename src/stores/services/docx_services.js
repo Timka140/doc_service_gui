@@ -40,8 +40,8 @@ export const docxServicesStore = defineStore("docx_services", {
         execution: "list",
       });
     },
-    Send(data) {
-      console.log(data);
+    Send() {
+      // console.log(data);
     },
     Render(data) {
       if (data.services == undefined) {

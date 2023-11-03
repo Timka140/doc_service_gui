@@ -159,9 +159,8 @@ export const templatesListStore = defineStore("templates_list", {
         execution: "list",
       });
     },
-    StateCreate(data) {
+    StateCreate() {
       this.update();
-      console.log(data)
     },
     Remove() {
       this.ws.Send({

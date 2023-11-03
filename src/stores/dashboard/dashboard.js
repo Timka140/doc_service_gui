@@ -46,7 +46,6 @@ export const dashboardStore = defineStore("dashboard", {
       });
     },
     Data(data){
-        console.log(data)
         if (!data) {
             return
         }

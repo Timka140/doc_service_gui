@@ -10,8 +10,7 @@ export const templateLocalStore = defineStore("template", {
     tmp: {},
   }),
   getters: {
-    Data: (state) => {
-      console.log(state)
+    Data: () => {
       return [];
     },
     LoadFile: (state) => {
@@ -57,7 +56,6 @@ export const templateLocalStore = defineStore("template", {
     },
     ReadData(data) {
       this.tmp = data;
-      // console.log(data);
     },
     SetTemplate(data) {
       if (data == undefined) {
