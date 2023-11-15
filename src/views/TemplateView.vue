@@ -3,6 +3,7 @@ import LeftMenu from '@/components/menu/LeftMenu.vue';
 import ModalTemplateLoad from '@/components/modals/template/ModalTemplateLoad.vue';
 import { wsStore } from "@/stores/ws";
 import { templateLocalStore } from '@/stores/templates/template';
+import {desktopStore} from "@/stores/desktop";
 
 import Prism from "prismjs";
 
@@ -14,9 +15,11 @@ export default {
     setup() {
         let ws = wsStore();
         let tmp = templateLocalStore();
+        let desktop = desktopStore();
         return {
             ws,
-            tmp: tmp,
+            desktop,
+            tmp,
         }
     },
     data() {
@@ -75,7 +78,7 @@ export default {
                             </div>
                             <div class="flex-grow-1 bd-highlight"></div>
                             <div class="bd-highlight">
-                                <button class="btn btn-warning me-2" type="button" @click="tmp.OpenTemplate">
+                                <button v-if="desktop.Desktop" class="btn btn-warning me-2" type="button" @click="tmp.OpenTemplate">
                                     <font-awesome-icon icon="fa-solid fa-file-pen" />
                                 </button>
                                 <button class="btn btn-primary" type="button" data-bs-toggle="collapse"

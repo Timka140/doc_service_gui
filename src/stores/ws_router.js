@@ -30,6 +30,7 @@ export default function wsRouter(){
         TemplatesCreate: templates.StateCreate,
         TemplateList: templates.Render,
         Template: template.ReadData,
+        UpdateTemplate: template.Init,
 
         TaskLocal: task.ReadData,
 

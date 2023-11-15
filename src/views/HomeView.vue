@@ -60,8 +60,8 @@ export default {
       <main class="container-fluid mt-2">
         <h1 class="mb-4">Главная</h1>
         <div class="row mb-4">
-          <div class="col-md-4">
 
+          <div class="col-md-6">
             <div class="card p-3">
               <div class="box-content-big text-center">
                 <div class="m-sm">
@@ -75,7 +75,7 @@ export default {
 
           </div>
 
-          <div class="col-md-4">
+          <!-- <div class="col-md-4">
 
             <div class="card p-3">
               <div class="box-content-big text-center">
@@ -86,9 +86,9 @@ export default {
               </div>
             </div>
 
-          </div>
+          </div> -->
 
-          <div class="col-md-4">
+          <div class="col-md-6">
 
             <div class="card p-3">
               <div class="box-content-big text-center">
@@ -104,23 +104,21 @@ export default {
         </div>
 
         <div class="row mb-4">
-          <div class="col-md-4">
 
+          <div class="col-md-6">
             <div class="card p-3">
               <canvas id="docxChart" ></canvas>
             </div>
 
           </div>
 
-          <div class="col-md-4">
-
+          <!-- <div class="col-md-4">
             <div class="card p-3">
               <canvas id="xlsxChart"></canvas>
             </div>
+          </div> -->
 
-          </div>
-          <div class="col-md-4">
-
+          <div class="col-md-6">
             <div class="card p-3">
               <canvas id="pdfChart"></canvas>
             </div>

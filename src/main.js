@@ -81,12 +81,21 @@ app.use(createPinia());
 app.use(router);
 
 //ws
+import { desktopStore } from "./stores/desktop";
 import { authStore } from "@/stores/auth";
 import { wsStore } from "@/stores/ws";
 const ws = wsStore();
 const auth = authStore();
-if (auth.isLogin) {
-  await ws.Init();
+const desktop = desktopStore();
+
+if (desktop) {
+  desktop.Init();
 }
 
-app.mount("#app");
+if (auth.isLogin) {
+  ws.Init(()=>{
+    app.mount("#app");
+  });
+} else {
+  app.mount("#app");
+}

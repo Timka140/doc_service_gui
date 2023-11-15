@@ -104,11 +104,11 @@ export default {
                             name: "Docx",
                             selected: false,
                         },
-                        {
-                            to: "/gui/services/xlsx",
-                            name: "Xlsx",
-                            selected: false,
-                        },
+                        // {
+                        //     to: "/gui/services/xlsx",
+                        //     name: "Xlsx",
+                        //     selected: false,
+                        // },
                         {
                             to: "/gui/services/pdf",
                             name: "Pdf",

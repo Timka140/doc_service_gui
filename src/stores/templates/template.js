@@ -51,7 +51,7 @@ export const templateLocalStore = defineStore("template", {
         tp: "Template",
         cmd: "Start",
         execution: "init",
-        template_id: this.template_id,
+        template_id: this.template_id, 
       });
     },
     ReadData(data) {
@@ -66,6 +66,9 @@ export const templateLocalStore = defineStore("template", {
       }
       localStorage.setItem("template_name", data.Name);
       localStorage.setItem("template_id", data.Id);
+      this.template_id = data.Id;
+      this.template_name = data.Name;
+      this.Init();
     },
     UpLoadFile() {
       let file = document.getElementById("template_form");

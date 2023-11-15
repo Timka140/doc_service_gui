@@ -112,7 +112,7 @@ export default {
                                     <tr>
                                         <th scope="col" style="width: 50px;">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" :checked="tmp.CheckAll">
+                                                <input class="form-check-input" type="checkbox" @click="tmp.SelectAll" :checked="tmp.CheckAll">
                                             </div>
                                         </th>
                                         <th scope="col" style="width: 50px;">

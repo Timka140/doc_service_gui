@@ -1,5 +1,6 @@
 <script>
 import { authStore } from '../stores/auth';
+import {desktopStore} from "@/stores/desktop";
 import axios from "axios";
 
 
@@ -7,14 +8,14 @@ export default {
   name: "LoginView",
   setup() {
     let auth = authStore();
+    let desktop = desktopStore();
 
     return {
       auth,
+      desktop,
     }
   },
   data() {
-    this.ProxyInit();
-
     return {
       login: "",
       password: "",
@@ -25,8 +26,10 @@ export default {
     }
   },
   methods: {
-    send_proxy(data ,res) {
-      axios.post('/desktop/proxy',data)
+    send_proxy(data, res) {
+      let th = this;
+      if (!th.desktop.Desktop) return;
+      axios.post('/desktop/proxy', data)
         .then(function (response) {
           res(response.data);
         })
@@ -37,9 +40,9 @@ export default {
     ProxyCheck() {
       let th = this;
       this.send_proxy({
-        tp:"check",
+        tp: "check",
         proxy: this.proxy,
-      },(val) => {
+      }, (val) => {
         th.proxy_check = val.state
 
         setTimeout(() => {
@@ -47,15 +50,14 @@ export default {
             th.proxy_check = 0
           }
         }, 2000);
-
       })
     },
     ProxyInit() {
       let th = this;
       this.send_proxy({
-        tp:"init",
+        tp: "init",
         proxy: this.proxy,
-      },(val) => {
+      }, (val) => {
         th.proxy_state = val.state;
         th.proxy = val.proxy_url;
       })
@@ -63,23 +65,38 @@ export default {
     SaveProxy() {
       let th = this;
       this.send_proxy({
-        tp:"save",
+        tp: "save",
         proxy: this.proxy,
-      },(val) => {
+      }, (val) => {
         th.proxy_save = val.state;
         th.proxy_state = val.state;
         th.proxy = val.proxy_url;
 
-        setTimeout(() => {
-          if (th.proxy_state == 1) {
-            th.proxy_state = 0
+        if (th.proxy_state == 1) {
+          let closeSettings = document.getElementById('closeSettings');
+          if (closeSettings != undefined) {
+            closeSettings.click();
           }
+          return
+        }
+
+        setTimeout(() => {
           if (th.proxy_save == 1) {
             th.proxy_save = 0
           }
         }, 2000);
       })
     }
+  },
+  mounted() {
+    let th = this;
+    window.addEventListener("keypress", (e)=>{
+      if (e.key == "Enter") {
+        th.auth.Login();
+      }
+    });
+
+    this.ProxyInit();
   },
   components: {},
 }
@@ -102,14 +119,14 @@ export default {
                   </div>
                   <div class="p-2 flex-grow-1 bd-highlight"></div>
                   <div class="p-2 bd-highlight">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#proxyModal"
+                    <button v-if="desktop.Desktop" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#proxyModal"
                       title="Настройки">
                       <font-awesome-icon icon="fa-solid fa-gear" />
                     </button>
                   </div>
                 </div>
                 <div class="card-body p-5 shadow-5 text-center">
-                  <div v-if="this.proxy_state != 1" class="alert alert-danger" role="alert">
+                  <div v-if="desktop.Desktop && this.proxy_state != 1" class="alert alert-danger" role="alert">
                     Соединение с сервером не установлено, укажите адрес сервера в настройках
                   </div>
                   <div v-if="auth.message != ''" class="alert alert-danger" role="alert">
@@ -125,13 +142,6 @@ export default {
                   <div class="form-outline mb-4">
                     <input type="password" class="form-control" placeholder="Пароль" :value="auth.password"
                       @input="auth.password = $event.target.value" />
-                  </div>
-
-                  <div class="form-check d-flex justify-content-center mb-4">
-                    <input class="form-check-input me-2" type="checkbox" value="" id="form2Example33" checked />
-                    <label class="form-check-label" for="form2Example33">
-                      Subscribe to our newsletter
-                    </label>
                   </div>
 
                   <button class="btn btn-primary btn-block mb-4" type="submit" @click="auth.Login()">
@@ -154,28 +164,20 @@ export default {
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="proxyModalTitle">Настройки соединения</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" id="closeSettings" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <div v-if="this.proxy_check == 1" class="alert alert-success" role="alert">
-            Проверка пройдена, сохраните настройки
-          </div>
-          <div v-if="this.proxy_check == 2" class="alert alert-danger" role="alert">
-            Проверка не пройдена
-          </div>
-
-          <div v-if="this.proxy_save == 1" class="alert alert-success" role="alert">
-            Соединение установлено и сохранено
-          </div>
           <div v-if="this.proxy_save == 2" class="alert alert-danger" role="alert">
             Ошибка сохранения: сервер не отвечает
           </div>
 
           <div class="input-group mb-3">
-            <button class="btn btn-outline-secondary" @click="this.ProxyCheck()" type="button"
-              id="button-addon1">Проверить</button>
-            <input type="text" class="form-control" v-model="this.proxy" placeholder="http://127.0.0.1:8071"
-              aria-label="Введите адрес сервиса" aria-describedby="button-addon1">
+            <button class="btn btn-outline-secondary"
+              :class="{ 'btn-outline-success': this.proxy_check == 1, 'btn-outline-danger': this.proxy_check == 2 }"
+              @click="this.ProxyCheck()" type="button" id="button-addon1">Проверить</button>
+            <input type="text" class="form-control"
+              :class="{ 'is-valid': this.proxy_check == 1, 'is-invalid': this.proxy_check == 2 }" v-model="this.proxy"
+              placeholder="http://127.0.0.1:8071" aria-label="Введите адрес сервиса" aria-describedby="button-addon1">
           </div>
         </div>
         <div class="modal-footer">

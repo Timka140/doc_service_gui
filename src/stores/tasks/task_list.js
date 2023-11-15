@@ -45,7 +45,7 @@ export const taskListStore = defineStore("task_list", {
         data[val] = {
           name: val,
           path: p,
-          index: crypto.randomUUID(),
+          index: Math.random(),
           disable: disable,
         };
       }
