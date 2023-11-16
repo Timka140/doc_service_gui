@@ -68,7 +68,7 @@ export default {
         <div class="flex-fill bd-highlight b-site">
             <main class="container-fluid mt-2">
 
-                <h1 class="mb-4">Шаблон: {{ tmp.TemplateName }}</h1>
+                <h2 class="mb-4">Шаблон: {{ tmp.TemplateName }}</h2>
 
                 <div class="card mb-2">
                     <div class="card-header">
@@ -151,7 +151,7 @@ map[string]interface{}{
                     </div>
                 </div>
 
-                <div class="card text-center mb-2">
+                <!-- <div class="card text-center mb-2">
                     <div class="card-header">
                         <div class="d-flex bd-highlight">
                             <div class="bd-highlight">
@@ -211,7 +211,7 @@ map[string]interface{}{
                             </tbody>
                         </table>
                     </div>
-                </div>
+                </div> -->
 
             </main>
         </div>

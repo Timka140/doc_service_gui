@@ -126,7 +126,7 @@ export default {
           </div>
         </div>
 
-        <div class="row mb-4">
+        <!-- <div class="row mb-4">
           <div class="col-12">
             <div class="card">
               <div class="card-body">
@@ -163,7 +163,7 @@ export default {
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
       </main>
     </div>
   </div>
