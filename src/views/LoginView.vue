@@ -1,6 +1,6 @@
 <script>
 import { authStore } from '../stores/auth';
-import {desktopStore} from "@/stores/desktop";
+import { desktopStore } from "@/stores/desktop";
 import axios from "axios";
 
 
@@ -17,8 +17,8 @@ export default {
   },
   data() {
     return {
-      login: "",
-      password: "",
+      login: this.desktop.User.login,
+      password: this.desktop.User.password,
       proxy: "http://127.0.0.1:8071",
       proxy_state: 0,
       proxy_check: 0,
@@ -86,11 +86,11 @@ export default {
           }
         }, 2000);
       })
-    }
+    },
   },
   mounted() {
     let th = this;
-    window.addEventListener("keypress", (e)=>{
+    window.addEventListener("keypress", (e) => {
       if (e.key == "Enter") {
         th.auth.Login();
       }
@@ -119,8 +119,8 @@ export default {
                   </div>
                   <div class="p-2 flex-grow-1 bd-highlight"></div>
                   <div class="p-2 bd-highlight">
-                    <button v-if="desktop.Desktop" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#proxyModal"
-                      title="Настройки">
+                    <button v-if="desktop.Desktop" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                      data-bs-target="#proxyModal" title="Настройки">
                       <font-awesome-icon icon="fa-solid fa-gear" />
                     </button>
                   </div>
@@ -142,6 +142,14 @@ export default {
                   <div class="form-outline mb-4">
                     <input type="password" class="form-control" placeholder="Пароль" :value="auth.password"
                       @input="auth.password = $event.target.value" />
+                  </div>
+
+                  <div v-if="desktop.Desktop" class="d-flex justify-content-start mb-4">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" @change="desktop.SaveChecked" :checked="desktop.SavePassword == true"
+                        id="savePasswordDesktop">
+                      <label class="form-check-label" for="savePasswordDesktop"> Сохранить пароль</label>
+                    </div>
                   </div>
 
                   <button class="btn btn-primary btn-block mb-4" type="submit" @click="auth.Login()">
