@@ -47,15 +47,12 @@ export const desktopStore = defineStore('desktop', {
 
     SaveChecked(el) {
       if (el == undefined) return
-      console.log('SaveChecked')
       let th = this
       th.checked = el.target.checked
     },
     ReadUser(data) {
       let th = this
       if (!th.desktop) return
-      console.log('ReadUser')
-      
       data.savePassword = th.checked
 
       axios
@@ -63,7 +60,6 @@ export const desktopStore = defineStore('desktop', {
         .then(function (response) {
           let data = response.data
           if (data == undefined) return
-          console.log(data)
           // th.user.login = data.user.login;
           // th.user.password = data.user.password;
         })

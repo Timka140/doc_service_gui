@@ -3,6 +3,7 @@ import { docxServicesStore } from "@/stores/services/docx_services"
 import { pdfServicesStore } from "@/stores/services/pdf_services";
 
 import { dashboardStore } from "./dashboard/dashboard";
+import { servicesStore } from "./dashboard/services";
 
 import { taskListStore } from "./tasks/task_list";
 import { taskLocalStore } from "./tasks/task_local";
@@ -19,6 +20,7 @@ export default function wsRouter(){
     const templates = templatesListStore();
     const template = templateLocalStore();
     const dashboard = dashboardStore();
+    const services = servicesStore();
     return {
         ListDocxServices: docxService.Render,
         ListPdfServices: pdfService.Render,
@@ -38,5 +40,7 @@ export default function wsRouter(){
         ChartTick: dashboard.ChartTick,
         // StateProcess: StateProcess, // Проверка сессии 
         // Pid: Pid,
+
+        ServicesList: services.Render,
     }
 }
