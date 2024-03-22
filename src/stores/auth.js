@@ -130,6 +130,11 @@ export const authStore = defineStore('auth', {
       }
       this.token = ''
       router.push('/gui/login')
-    }
-  }
+    },
+    Logout() {
+      let th = this;
+      th.ws.Send({ tp: 'Logout', cmd: 'Start'})
+      router.push('/gui/login')
+    },
+  },
 })

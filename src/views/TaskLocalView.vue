@@ -1,5 +1,7 @@
 <script>
 import LeftMenu from '@/components/menu/LeftMenu.vue';
+import TopMenu from '@/components/menu/TopMenu.vue';
+
 import { wsStore } from "@/stores/ws";
 import { taskLocalStore } from '@/stores/tasks/task_local';
 
@@ -32,6 +34,7 @@ export default {
     },
     components: {
         LeftMenu,
+        TopMenu,
     },
 }
 </script>
@@ -43,6 +46,7 @@ export default {
             <LeftMenu />
         </div>
         <div class="flex-fill bd-highlight b-site">
+            <TopMenu />
             <main class="container-fluid mt-2">
 
                 <h1 class="mb-4">Задача</h1>

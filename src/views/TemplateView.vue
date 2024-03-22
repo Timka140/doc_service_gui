@@ -1,5 +1,7 @@
 <script>
 import LeftMenu from '@/components/menu/LeftMenu.vue';
+import TopMenu from '@/components/menu/TopMenu.vue';
+
 import ModalTemplateLoad from '@/components/modals/template/ModalTemplateLoad.vue';
 import { wsStore } from "@/stores/ws";
 import { templateLocalStore } from '@/stores/templates/template';
@@ -54,6 +56,7 @@ export default {
     },
     components: {
         LeftMenu,
+        TopMenu,
         ModalTemplateLoad,
     },
 }
@@ -66,6 +69,7 @@ export default {
             <LeftMenu />
         </div>
         <div class="flex-fill bd-highlight b-site">
+            <TopMenu />
             <main class="container-fluid mt-2">
 
                 <h2 class="mb-4">Шаблон: {{ tmp.TemplateName }}</h2>

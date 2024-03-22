@@ -1,5 +1,7 @@
 <script>
 import LeftMenu from '@/components/menu/LeftMenu.vue';
+import TopMenu from '@/components/menu/TopMenu.vue';
+
 import { wsStore } from "@/stores/ws";
 import { useRoute } from 'vue-router';
 import { templatesListStore } from '@/stores/templates/templates_list';
@@ -45,6 +47,7 @@ export default {
     },
     components: {
         LeftMenu,
+        TopMenu,
 
         ModalCatalogCreate,
         ModalTemplateCreate,
@@ -59,6 +62,7 @@ export default {
             <LeftMenu />
         </div>
         <div class="flex-fill bd-highlight b-site">
+            <TopMenu />
             <main class="container-fluid mt-2">
                 <h1 class="mb-4">Список шаблонов</h1>
                 <div class="card mb-4">

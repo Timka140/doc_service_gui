@@ -1,6 +1,8 @@
 <script>
 // import { ref, onMounted } from 'vue';
 import LeftMenu from '@/components/menu/LeftMenu.vue';
+import TopMenu from '@/components/menu/TopMenu.vue';
+
 import UserModal from './UserModal.vue';
 import TableUsers from './TableUsers.vue';
 import TableServices from './TableServices.vue'
@@ -37,6 +39,7 @@ export default {
         TableUsers,
         TableServices,
         ServiceModal,
+        TopMenu,
     },
 }
 </script>
@@ -48,6 +51,7 @@ export default {
             <LeftMenu />
         </div>
         <div class="flex-fill bd-highlight b-site">
+            <TopMenu/>
             <main class="container-fluid mt-2">
                 <div class="row">
                     <div class="col-xl-6 col-lg-12">
