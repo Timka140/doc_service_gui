@@ -66,16 +66,17 @@ export default {
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12">
-                                <div class="d-flex bd-highlight">
-                                    <div class="p-2 bd-highlight">
-                                        <div class="btn-toolbar mb-3" role="toolbar"
-                                            aria-label="Toolbar with button groups">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                                             <div class="input-group me-2">
-                                                <button type="button" @click="pdf.StartServices(this.quantity_services)"
+                                                <button type="button"
+                                                    @click="pdf.StartServices(this.quantity_services)"
                                                     class="btn btn-success"
                                                     title="Запускает указанное число микро сервисов"><font-awesome-icon
                                                         icon="fa-solid fa-play" /></button>
-                                                <input type="number" @change="this.quantity_services = $event.target.value"
+                                                <input type="number"
+                                                    @change="this.quantity_services = $event.target.value"
                                                     class="form-control" value="1" min="1" step="1"
                                                     aria-label="Input group example">
                                             </div>
@@ -86,12 +87,11 @@ export default {
                                                         icon="fa-solid fa-stop" /></button>
                                             </div>
                                         </div>
-
                                     </div>
-                                    <div class="p-2 flex-grow-1 bd-highlight"></div>
-                                    <div class="p-2 bd-highlight">
+                                    <div>
                                         <button type="button" @click="pdf.Info()"
-                                            class="btn btn-primary"><font-awesome-icon icon="fa-solid fa-rotate" /></button>
+                                            class="btn btn-primary"><font-awesome-icon
+                                                icon="fa-solid fa-rotate" /></button>
                                     </div>
                                 </div>
                             </div>

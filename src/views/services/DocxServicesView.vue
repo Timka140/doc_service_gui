@@ -56,7 +56,7 @@ export default {
             <LeftMenu />
         </div>
         <div class="flex-fill bd-highlight b-site">
-            <TopMenu/>
+            <TopMenu />
             <main class="container-fluid mt-2">
 
                 <h1 class="mb-4">Микросервисы DocxTemplate</h1>
@@ -65,16 +65,17 @@ export default {
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12">
-                                <div class="d-flex bd-highlight">
-                                    <div class="p-2 bd-highlight">
-                                        <div class="btn-toolbar mb-3" role="toolbar"
-                                            aria-label="Toolbar with button groups">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
                                             <div class="input-group me-2">
-                                                <button type="button" @click="docx.StartServices(this.quantity_services)"
+                                                <button type="button"
+                                                    @click="docx.StartServices(this.quantity_services)"
                                                     class="btn btn-success"
                                                     title="Запускает указанное число микро сервисов"><font-awesome-icon
                                                         icon="fa-solid fa-play" /></button>
-                                                <input type="number" @change="this.quantity_services = $event.target.value"
+                                                <input type="number"
+                                                    @change="this.quantity_services = $event.target.value"
                                                     class="form-control" value="1" min="1" step="1"
                                                     aria-label="Input group example">
                                             </div>
@@ -85,12 +86,11 @@ export default {
                                                         icon="fa-solid fa-stop" /></button>
                                             </div>
                                         </div>
-
                                     </div>
-                                    <div class="p-2 flex-grow-1 bd-highlight"></div>
-                                    <div class="p-2 bd-highlight">
+                                    <div>
                                         <button type="button" @click="docx.Info()"
-                                            class="btn btn-primary"><font-awesome-icon icon="fa-solid fa-rotate" /></button>
+                                            class="btn btn-primary"><font-awesome-icon
+                                                icon="fa-solid fa-rotate" /></button>
                                     </div>
                                 </div>
                             </div>
@@ -116,12 +116,14 @@ export default {
                                     <tr v-for="(item) in docx.Data" :key="item.Pid">
                                         <th>
                                             <div class="form-check">
-                                                <input class="form-check-input" @change="docx.SelectRow($event, item.Pid)"
-                                                    :checked="item.select" type="checkbox" value="" id="flexCheckDefault">
+                                                <input class="form-check-input"
+                                                    @change="docx.SelectRow($event, item.Pid)" :checked="item.select"
+                                                    type="checkbox" value="" id="flexCheckDefault">
                                             </div>
                                         </th>
                                         <td>{{ item.index }}</td>
-                                        <td><strong v-if="item.Online">Работает</strong><strong v-else>Остановлен</strong>
+                                        <td><strong v-if="item.Online">Работает</strong><strong
+                                                v-else>Остановлен</strong>
                                         </td>
                                         <td scope="row">{{ item.Pid }}</td>
                                     </tr>
@@ -135,6 +137,7 @@ export default {
                 </div>
             </main>
         </div>
-</div></template>
+    </div>
+</template>
 
 <style scoped></style>
