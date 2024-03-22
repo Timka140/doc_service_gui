@@ -9,6 +9,7 @@ import XlsxServicesViewVue from '@/views/services/XlsxServicesView.vue'
 import PdfServicesView from '@/views/services/PdfServicesView.vue'
 import TemplatesListView from "@/views/TemplatesListView.vue"
 import TemplateView from '@/views/TemplateView.vue'
+import SettingsView from '@/views/settings/SettingsView.vue'
 
 import { authStore } from '../stores/auth'
 
@@ -24,6 +25,15 @@ const router = createRouter({
       meta: { 
         requiresAuth: true,
         pageName: "Главная",
+      }
+    },
+    {
+      path: '/gui/settings',
+      name: 'settings',
+      component: SettingsView,
+      meta: { 
+        requiresAuth: true,
+        pageName: "Список пользователей",
       }
     },
     {

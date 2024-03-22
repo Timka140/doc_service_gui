@@ -88,13 +88,12 @@ export const authStore = defineStore('auth', {
             this.name = data.name
             this.lastName = data.lastName
 
-            this.ws.Init(() => {
-              router.push('/gui/')
-            })
+            this.ws.Open()
+            router.push('/gui/')
           }
         })
     },
-    async IsLogin(to_path) {
+    IsLogin(to_path) {
       //Проверяю авторизован ли пользователь
       let th = this
       if (to_path == undefined) {
@@ -109,6 +108,7 @@ export const authStore = defineStore('auth', {
           })
           .then(function (response) {
             th.CheckSession(response.data)
+            // if (response.data.login) this.ws.Open();
           })
           .catch(function () {
             th.CheckSession({ login: false })

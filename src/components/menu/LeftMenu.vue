@@ -67,6 +67,12 @@ export default {
                     name: "Главная",
                     selected: false,
                 },
+                {
+                    tp: "item",
+                    to: "/gui/settings",
+                    name: "Настройки",
+                    selected: false,
+                },
                 // {
                 //     tp: "item",
                 //     to: "/gui/processes",

@@ -38,6 +38,10 @@ import {
   faCopy,
   faFilePen,
   faGear,
+  faChevronLeft,
+  faChevronRight,
+  faSave,
+  faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -69,6 +73,10 @@ library.add(
   faCopy,
   faFilePen,
   faGear,
+  faChevronLeft,
+  faChevronRight,
+  faSave,
+  faUserPlus,
 );
 
 import App from "./App.vue";
@@ -82,20 +90,10 @@ app.use(router);
 
 //ws
 import { desktopStore } from "./stores/desktop";
-import { authStore } from "@/stores/auth";
-import { wsStore } from "@/stores/ws";
-const ws = wsStore();
-const auth = authStore();
 const desktop = desktopStore();
 
 if (desktop) {
   desktop.Init();
 }
 
-if (auth.isLogin) {
-  ws.Init(()=>{
-    app.mount("#app");
-  });
-} else {
-  app.mount("#app");
-}
+app.mount("#app");

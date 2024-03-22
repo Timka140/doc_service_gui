@@ -1,115 +1,114 @@
-import { defineStore } from "pinia";
-import wsRouter from "./ws_router";
-import { authStore } from "@/stores/auth"
-import router from "@/router";
+import { defineStore } from 'pinia'
+import { wsRouterStore } from '@/stores/ws_router'
+import { authStore } from '@/stores/auth'
+import router from '@/router'
 
-export const wsStore = defineStore("ws", {
+export const wsStore = defineStore('ws', {
   state: () => ({
     socket: undefined,
     open: false,
-    constructors: wsRouter(),
+    wsRouter: wsRouterStore(),
     auth: authStore(),
-    // socket: new WebSocket('ws://localhost:8071/ws')
+    ws: WebSocket,
+    messageQueue: [],
+    routers: {},
   }),
   getters: {
     StateOpen: (state) => {
-      return state.open;
-    },
+      return state.ws.readyState === WebSocket.OPEN
+    }
   },
   actions: {
-    async Connect() {
-      let th = this;
-      return new Promise((resolve) => {
-        th.socket = new WebSocket("ws://" + document.location.host + "/api/ws");
-        th.socket.addEventListener("open", (event) => {
-          console.log("WebSocket open:", event);
-          resolve(true);
-        });
-      });
-    },
-    async Init(callback) {
-      let th = this;
-      if (th.socket == undefined || th.socket == null) {
-        th.open = await this.Connect();
+    Open() {
+      let th = this
 
-        if (!th.open) {
-          console.log("Не удалось открыть соединение");
-          return;
-        }
+      if (!th.auth.IsLoggedIn) return;
+
+      let url = 'ws://' + document.location.host + '/api/ws'
+
+      if (window.location.protocol === 'https:') {
+        url = 'wss://' + document.location.host + '/api/ws'
       }
 
-      if (th.socket.readyState == 3) {
-        th.open = await this.Connect();
-
-        if (!th.open) {
-          console.log("Не удалось открыть соединение");
-          return;
-        }
+      try {
+        th.ws = new WebSocket(url)
+      } catch (error) {
+        console.error('Ошибка при создании WebSocket:', error)
+        return
       }
+      th.routers = th.wsRouter.Routers();
 
-      th.socket.addEventListener("message", (event) => {
-        if (!event.data) {
-          return;
-        }
-        let data = JSON.parse(event.data);
+      th.ws.addEventListener('open', (event) => {
+        console.log('WebSocket open:', event)
+        th.sendFromQueue()
+        // resolve(true)
+      })
 
-        let constructor = this.constructors[data.tp];
-        if (constructor !== undefined) {
-          constructor(data);
-        } else {
-          console.log("[WARNING] Обработчик не найден:", data);
-        }
-      });
-
-      th.socket.addEventListener("close", (event) => {
-        console.log("[WARNING] WebSocket close:", event);
+      th.ws.addEventListener('close', (event) => {
+        console.log('[WARNING] WebSocket close:', event)
         switch (event.code) {
           case 1000:
-            break;
+            break
 
           case 1006:
-            // th.auth.IsLogin();
-            router.push('/gui/login');
-            break;
+            router.push('/gui/login')
+            break
 
-          case 4000:
-            setTimeout(() => {
-              th.Connect();
-            }, 3000);
-            break;
+          // case 4000:
+          //   setTimeout(th.Open, 3000)
+          //   break
 
           default:
-            setTimeout(() => {
-              th.Connect();
-            }, 3000);
+            setTimeout(th.Open, 3000)
         }
-      });
+      })
 
-      th.socket.addEventListener("error", (event) => {
-        console.log("[WARNING] WebSocket error:", event);
-        th.Connect();
-      });
+      th.ws.addEventListener('error', (event) => {
+        console.log('[WARNING] WebSocket error:', event)
+        // reject(event)
+      })
 
-      if (callback != undefined) {
-        callback();
+      th.ws.addEventListener('message', (event) => {
+        if (!event.data) {
+          return
+        }
+        let data = JSON.parse(event.data)
+
+        let constructor = th.routers[data.tp]
+        if (constructor !== undefined) {
+          constructor(data)
+        } else {
+          console.log('[WARNING] Обработчик не найден:', data)
+        }
+      })
+    },
+
+    sendFromQueue() {
+      while (this.ws.readyState === WebSocket.OPEN && this.messageQueue.length) {
+        const message = this.messageQueue.shift()
+        try {
+          this.ws.send(message)
+        } catch (error) {
+          console.error('Ошибка при отправке сообщения:', error)
+        }
       }
     },
 
-    async Send(data) {
-      if (data == undefined) {
-        return;
+
+    Send(message) {
+      if (message == undefined) {
+        return
       }
-      if (this.socket == undefined || this.socket == null) {
-        await this.Init();
-        // return
-      }
-      this.socket.send(JSON.stringify(data));
+
+      this.messageQueue.push(JSON.stringify(message))
+      this.sendFromQueue()
     },
+
     Close() {
-      this.socket.close(1000, "работа закончена");
+      this.ws.close(1000, 'работа закончена')
     },
     Socket() {
-      return this.socket;
-    },
-  },
-});
+      return this.ws
+    }
+  }
+})
