@@ -5,6 +5,20 @@ import { desktopStore } from "@/stores/desktop";
 import router from '@/router'
 import axios from 'axios'
 
+
+function loadRights() {
+  let rg = localStorage.getItem('user_rights');
+  if (rg == null || rg == "" ) {
+    return {}
+  }
+  try {
+    return JSON.parse(rg)
+  } catch (error) {
+    console.log("Получение прав: ", error)
+    return {}
+  }
+}
+
 export const authStore = defineStore('auth', {
   state: () => ({
     ws: wsStore(),
@@ -13,6 +27,8 @@ export const authStore = defineStore('auth', {
     isLogin: false,
     login: '',
     password: '',
+
+    rights: loadRights(),
 
     message: ''
   }),
@@ -29,7 +45,23 @@ export const authStore = defineStore('auth', {
       if (state.token != '') ses = true
 
       return ses
-    }
+    },
+    
+    Rights:(state) => {
+      let rg = {
+        // administrator - полные права
+        administrator: state.rights.administrator != undefined ? state.rights.administrator: false,
+        // guest - статус гостя
+        guest: state.rights.guest != undefined ? state.rights.guest: false,
+        // creatingTemplate - создание новых шаблонов
+        creatingTemplate: state.rights.creatingTemplate != undefined ? state.rights.creatingTemplate: false,
+        // updatingTemplate - разрешает обновлять шаблоны
+        updatingTemplate: state.rights.updatingTemplate != undefined ? state.rights.updatingTemplate: false,
+
+      }
+      return rg;
+    },
+    
   },
   actions: {
     PreventDefault(event) {
@@ -79,6 +111,9 @@ export const authStore = defineStore('auth', {
             localStorage.setItem('name', data.name)
             localStorage.setItem('lastName', data.lastName)
             localStorage.setItem('saveSessions', this.GetSaveSessions)
+
+            localStorage.setItem('user_rights', JSON.stringify(data.rights))
+            this.rights = loadRights();
 
             localStorage.setItem('socketAdr', data.socketAdr)
 

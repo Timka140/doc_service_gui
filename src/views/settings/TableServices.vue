@@ -76,7 +76,7 @@ export default {
                         <tbody v-if="!services.EmptyTableL">
                             <tr v-for="(item, index) in services.ShowData" :key="index">
                                 <td>{{ item.Id }}</td>
-                                <td><span class="link-primary user-login" @click="services.ShowName(false, item.Id)"
+                                <td><span class="link-primary pointer" @click="services.ShowName(false, item.Id)"
                                         data-bs-toggle="modal" data-bs-target="#servicesModal">{{ item.Name }}</span></td>
                                 <td>{{ item.Comment }}</td>
                             </tr>
@@ -116,5 +116,8 @@ export default {
 .table-number {
     text-align: center;
     appearance: textfield;
+}
+.pointer {
+    cursor: pointer;
 }
 </style>

@@ -42,6 +42,7 @@ import {
   faChevronRight,
   faSave,
   faUserPlus,
+  faArrowRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -77,6 +78,7 @@ library.add(
   faChevronRight,
   faSave,
   faUserPlus,
+  faArrowRightFromBracket,
 );
 
 import App from "./App.vue";

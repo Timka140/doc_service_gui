@@ -9,6 +9,7 @@ import TableServices from './TableServices.vue'
 import ServiceModal from './ServiceModal.vue';
 
 import { wsStore } from "@/stores/ws"
+import { authStore } from "@/stores/auth"
 import { settingsUsersStore } from '@/stores/settings/users';
 
 
@@ -17,9 +18,11 @@ export default {
     setup() {
         let ws = wsStore();
         let users = settingsUsersStore();
+        let auth = authStore();
         return {
             ws,
             users,
+            auth,
         }
     },
     data() {
@@ -52,12 +55,19 @@ export default {
         </div>
         <div class="flex-fill bd-highlight b-site">
             <TopMenu/>
-            <main class="container-fluid mt-2">
+            <main v-if="this.auth.Rights.administrator" class="container-fluid mt-2">
                 <div class="row">
                     <div class="col-xl-6 col-lg-12">
                         <TableUsers/>
                     </div>
                     <div class="col-xl-6 col-lg-12">
+                        <TableServices/>
+                    </div>
+                </div>
+            </main>
+            <main v-else class="container-fluid mt-2">
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12">
                         <TableServices/>
                     </div>
                 </div>
@@ -69,7 +79,5 @@ export default {
 </template>
 
 <style scoped>
-.user-login {
-    cursor: pointer;
-}
+
 </style>

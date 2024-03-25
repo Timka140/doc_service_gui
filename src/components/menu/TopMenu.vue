@@ -20,7 +20,7 @@ export default {
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li  class="nav-item pointer" @click="auth.Logout">
-          <a class="nav-link" >Выйти</a>
+          <a class="nav-link" ><font-awesome-icon icon="fa-solid fa-arrow-right-from-bracket" /> Выйти</a>
         </li>
       </ul>
     </div>
