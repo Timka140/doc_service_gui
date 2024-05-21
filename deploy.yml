@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: static-html
+  namespace: epd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: static-html
+  template:
+    metadata:
+      labels:
+        app: static-html
+    spec:
+      containers:
+        - name: static-html
+          image: gitlab.aescorp.ru:5000/epd/static-html:latest
+          securityContext:
+            readOnlyRootFilesystem: true
+          ports:
+            - name: static-html
+              protocol: TCP
+              containerPort: 80
+          volumeMounts:
+            - mountPath: /var/run
+              name: tmpfs-var-run
+            - mountPath: /var/cache/nginx
+              name: tmpfs-var-cache-nginx
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 10
+          imagePullPolicy: Always
+      volumes:
+        - name: tmpfs-var-run
+          emptyDir:
+            medium: Memory
+            sizeLimit: 100Ki
+        - name: tmpfs-var-cache-nginx
+          emptyDir:
+            sizeLimit: 10Mi
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      imagePullSecrets:
+        - name: regcred
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0

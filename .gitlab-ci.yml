@@ -1,0 +1,49 @@
+stages:
+  - build
+    #  - test
+  - deploy
+
+build-job:
+  stage: build
+  before_script:
+    - docker info
+    - echo -n $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+  script:
+    - echo "Code building..."
+    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA --squash --build-arg GOLANG_VERSION=1.21 --build-arg APP_NAME=$CI_PROJECT_NAME .
+    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA $CI_REGISTRY_IMAGE:latest
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+    - docker push $CI_REGISTRY_IMAGE:latest
+  only:
+    - main
+    - dev
+
+      #test-job:
+      #  stage: test
+      #  script:
+      #    - echo "Run testing..."
+      #  only:
+      #    - main
+      #    - dev
+
+deploy-dev:
+  stage: deploy
+  environment:
+    name: dev
+  script:
+    - echo "Deploying..."
+    - sed -i "s|latest|${CI_COMMIT_SHORT_SHA}|" deploy.yml
+    - kubectl --kubeconfig=/home/gitlab-runner/config-dev apply -f deploy.yml
+  only:
+    - dev
+
+deploy-prod:
+  stage: deploy
+  environment:
+    name: main
+  script:
+    - echo "Deploying..."
+    - sed -i "s|latest|${CI_COMMIT_SHORT_SHA}|" deploy.yml
+    - kubectl apply -f deploy.yml
+  only:
+    - main
